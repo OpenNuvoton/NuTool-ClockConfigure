@@ -1,0 +1,7 @@
+Please do not modify this file. Otherwise, it may not be loaded successfully.
+DialogSize:X_1920Y_978
+UIlanguage:
+CheckModularizeCode:No
+ProjectName:M2003C
+ProjectLocation:C:\+
+ProjectLocationHistory:C:\+>
