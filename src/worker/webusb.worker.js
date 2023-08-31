@@ -134,6 +134,7 @@ const getRegisterValue = async () => {
                     // postMessage({ 'action': 'returnRegisterValue', 'addr': addrs[i], 'value': value, 'type': 'CortexM' });
                     var obj = {};
                     obj[`${addrs[i]}`] = value;
+                    console.log(`${addrs[i]}, ${value}`);
                     result.push(obj);
                 }
                 postMessage({ 'action': 'returnRegisterValue', 'result': result, 'type': 'CortexM' });

@@ -15310,15 +15310,21 @@ var NUTOOL_CLOCK = {};
                     for (var i = 0; i < regs.length; i++) {
                         text = text + regs[i];
                     }
-                    if (typeof NUTOOL_CLOCK.g_register_map['PLLCON'.toEquivalent()] !== 'undefined') {
-                        text = text + `Step:4\r\n`;
-                    } else {
-                        text = text + `Step:3\r\n`;
-                    }
+                    // TODO: 由於PLL要自己從register value值回推，等確認完再把step移到3或4
+                    // if (typeof NUTOOL_CLOCK.g_register_map['PLLCON'.toEquivalent()] !== 'undefined') {
+                    //     text = text + `Step:4\r\n`;
+                    // } else {
+                    //     text = text + `Step:3\r\n`;
+                    // }
+                    text = text + `Step:1\r\n`;
                     // 執行loadConfig_core()
                     NUTOOL_CLOCK.g_readConfigFileContentText = text;
                     NUTOOL_CLOCK.g_readConfigFilePath = 'dummyPath';
                     loadConfig_core();
+                    // TODO: 等到PLL功能可以正常執行後，記得修改Alert message
+                    showAlertDialog("请手动填入CLOCK频率。",
+                        "請手動填入CLOCK頻率",
+                        "Please manually fill in the CLOCK frequencies.");
                 } else if (data.type == '8051') {
                     // TODO: (Clock尚未支援8051)
                 } else {
