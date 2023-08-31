@@ -4,7 +4,7 @@ var NUTOOL_CLOCK = {};
 
 (function () {
     // all the global variables within the immediately-invoked function scope
-    const VERSION_CODE = 'V2.00.0002';
+    const VERSION_CODE = 'V1.07.0002';
     var g_NUC_TreeView_Width = 250,
         g_NUC_TreeView_Height,
         g_Dialog_Width,
