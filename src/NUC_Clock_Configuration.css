@@ -39,7 +39,8 @@ input {
 .div_clock_composite {
 	float: left;
 	margin: 0 auto;
-	font: 18px Arial;
+	font: 20px Arial;
+	text-align: center;
 }
 
 .cb-enable,

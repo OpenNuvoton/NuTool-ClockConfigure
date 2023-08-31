@@ -5979,7 +5979,8 @@ var NUTOOL_CLOCK = {};
             }
             $("#" + name + "_span_showRealFreq").css('color', '#2E2EFE');
 
-            $("#" + enableField + "_input").width(85);
+            $("#" + enableField + "_input").width(55);
+            $("#" + enableField + "_input").height(20);
             $("#PLL2CKEN_input").width(78);
         };
         buildPLLCTLtable = function (expectationFrequency, bClickFromRegister, inaccuracy, registerName) {
@@ -8802,7 +8803,8 @@ var NUTOOL_CLOCK = {};
             $('[title]').prop('title', 'Input the expected value');
         }
 
-        $("#" + sXTL12M_EN + "_input").width(85);
+        $("#" + sXTL12M_EN + "_input").width(55);
+        $("#" + sXTL12M_EN + "_input").height(20);
 
         // chain effect
         if (g_chipType === "MINI51AN" || g_chipType === "MINI51DE" ||
