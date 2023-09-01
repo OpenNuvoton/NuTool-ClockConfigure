@@ -12355,7 +12355,7 @@ var NUTOOL_CLOCK = {};
                     tempValue = readValueFromClockRegs(sPCLK0SEL);
                     theCode += '    CLK->PCLKDIV = (CLK_PCLKDIV_APB0DIV_DIV' + Math.pow(2, tempValue) + ' | ';
                     tempValue = readValueFromClockRegs(sPCLK1SEL);
-                    theCode += '    CLK->PCLKDIV = (CLK_PCLKDIV_APB1DIV_DIV' + Math.pow(2, tempValue) + ' | ';
+                    theCode += 'CLK_PCLKDIV_APB1DIV_DIV' + Math.pow(2, tempValue) + ' | ';
                     tempValue = readValueFromClockRegs(sPCLK2SEL);
                     theCode += 'CLK_PCLKDIV_APB2DIV_DIV' + Math.pow(2, tempValue) + ');\n\n';
                 }
