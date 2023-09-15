@@ -2234,7 +2234,7 @@ var getPIDValue = /*#__PURE__*/function () {
 }();
 var getRegisterValue = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-    var showing_buffer, result, i, value, obj, sfs_data, value_P0MF10, value_P0MF32, value_P0MF54, value_P0MF76, value_P1MF10, value_P1MF32, value_P1MF54, value_P1MF76, value_P2MF10, value_P2MF32, value_P2MF54, value_P2MF76, value_P3MF10, value_P3MF32, value_P3MF54, value_P3MF76, value_P4MF10, value_P4MF32, value_P4MF54, value_P4MF76, value_P5MF10, value_P5MF32, value_P5MF54, value_P5MF76, value_P6MF10, value_P6MF32, value_P6MF54, value_P6MF76;
+    var showing_buffer, result, i, value, obj;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
@@ -2286,273 +2286,25 @@ var getRegisterValue = /*#__PURE__*/function () {
           _context3.next = 30;
           return disconnect();
         case 30:
-          _context3.next = 205;
+          _context3.next = 32;
           break;
         case 32:
-          _context3.prev = 32;
-          sfs_data = [0, 2];
-          _context3.next = 36;
-          return processor.resume();
-        case 36:
-          _context3.next = 38;
-          return new Promise(function (r) {
-            return setTimeout(r, 1000);
-          });
-        case 38:
-          _context3.next = 40;
-          return processor.halt();
-        case 40:
-          _context3.next = 42;
-          return processor.readMem8(sfrs_addr);
-        case 42:
-          sfs_data[0] = _context3.sent;
-          _context3.next = 45;
-          return processor.writeMem8(sfrs_addr, sfs_data[1]);
-        case 45:
-          _context3.t1 = registerValueToHex;
-          _context3.next = 48;
-          return processor.readMem8(P0MF10_addr);
-        case 48:
-          _context3.t2 = _context3.sent;
-          value_P0MF10 = (0, _context3.t1)(_context3.t2);
-          _context3.t3 = registerValueToHex;
-          _context3.next = 53;
-          return processor.readMem8(P0MF32_addr);
-        case 53:
-          _context3.t4 = _context3.sent;
-          value_P0MF32 = (0, _context3.t3)(_context3.t4);
-          _context3.t5 = registerValueToHex;
-          _context3.next = 58;
-          return processor.readMem8(P0MF54_addr);
-        case 58:
-          _context3.t6 = _context3.sent;
-          value_P0MF54 = (0, _context3.t5)(_context3.t6);
-          _context3.t7 = registerValueToHex;
-          _context3.next = 63;
-          return processor.readMem8(P0MF76_addr);
-        case 63:
-          _context3.t8 = _context3.sent;
-          value_P0MF76 = (0, _context3.t7)(_context3.t8);
-          _context3.t9 = registerValueToHex;
-          _context3.next = 68;
-          return processor.readMem8(P1MF10_addr);
-        case 68:
-          _context3.t10 = _context3.sent;
-          value_P1MF10 = (0, _context3.t9)(_context3.t10);
-          _context3.t11 = registerValueToHex;
-          _context3.next = 73;
-          return processor.readMem8(P1MF32_addr);
-        case 73:
-          _context3.t12 = _context3.sent;
-          value_P1MF32 = (0, _context3.t11)(_context3.t12);
-          _context3.t13 = registerValueToHex;
-          _context3.next = 78;
-          return processor.readMem8(P1MF54_addr);
-        case 78:
-          _context3.t14 = _context3.sent;
-          value_P1MF54 = (0, _context3.t13)(_context3.t14);
-          _context3.t15 = registerValueToHex;
-          _context3.next = 83;
-          return processor.readMem8(P1MF76_addr);
-        case 83:
-          _context3.t16 = _context3.sent;
-          value_P1MF76 = (0, _context3.t15)(_context3.t16);
-          _context3.t17 = registerValueToHex;
-          _context3.next = 88;
-          return processor.readMem8(P2MF10_addr);
-        case 88:
-          _context3.t18 = _context3.sent;
-          value_P2MF10 = (0, _context3.t17)(_context3.t18);
-          _context3.t19 = registerValueToHex;
-          _context3.next = 93;
-          return processor.readMem8(P2MF32_addr);
-        case 93:
-          _context3.t20 = _context3.sent;
-          value_P2MF32 = (0, _context3.t19)(_context3.t20);
-          _context3.t21 = registerValueToHex;
-          _context3.next = 98;
-          return processor.readMem8(P2MF54_addr);
-        case 98:
-          _context3.t22 = _context3.sent;
-          value_P2MF54 = (0, _context3.t21)(_context3.t22);
-          _context3.t23 = registerValueToHex;
-          _context3.next = 103;
-          return processor.readMem8(P2MF76_addr);
-        case 103:
-          _context3.t24 = _context3.sent;
-          value_P2MF76 = (0, _context3.t23)(_context3.t24);
-          _context3.t25 = registerValueToHex;
-          _context3.next = 108;
-          return processor.readMem8(P3MF10_addr);
-        case 108:
-          _context3.t26 = _context3.sent;
-          value_P3MF10 = (0, _context3.t25)(_context3.t26);
-          _context3.t27 = registerValueToHex;
-          _context3.next = 113;
-          return processor.readMem8(P3MF32_addr);
-        case 113:
-          _context3.t28 = _context3.sent;
-          value_P3MF32 = (0, _context3.t27)(_context3.t28);
-          _context3.t29 = registerValueToHex;
-          _context3.next = 118;
-          return processor.readMem8(P3MF54_addr);
-        case 118:
-          _context3.t30 = _context3.sent;
-          value_P3MF54 = (0, _context3.t29)(_context3.t30);
-          _context3.t31 = registerValueToHex;
-          _context3.next = 123;
-          return processor.readMem8(P3MF76_addr);
-        case 123:
-          _context3.t32 = _context3.sent;
-          value_P3MF76 = (0, _context3.t31)(_context3.t32);
-          _context3.t33 = registerValueToHex;
-          _context3.next = 128;
-          return processor.readMem8(P4MF10_addr);
-        case 128:
-          _context3.t34 = _context3.sent;
-          value_P4MF10 = (0, _context3.t33)(_context3.t34);
-          _context3.t35 = registerValueToHex;
-          _context3.next = 133;
-          return processor.readMem8(P4MF32_addr);
-        case 133:
-          _context3.t36 = _context3.sent;
-          value_P4MF32 = (0, _context3.t35)(_context3.t36);
-          _context3.t37 = registerValueToHex;
-          _context3.next = 138;
-          return processor.readMem8(P4MF54_addr);
-        case 138:
-          _context3.t38 = _context3.sent;
-          value_P4MF54 = (0, _context3.t37)(_context3.t38);
-          _context3.t39 = registerValueToHex;
-          _context3.next = 143;
-          return processor.readMem8(P4MF76_addr);
-        case 143:
-          _context3.t40 = _context3.sent;
-          value_P4MF76 = (0, _context3.t39)(_context3.t40);
-          _context3.t41 = registerValueToHex;
-          _context3.next = 148;
-          return processor.readMem8(P5MF10_addr);
-        case 148:
-          _context3.t42 = _context3.sent;
-          value_P5MF10 = (0, _context3.t41)(_context3.t42);
-          _context3.t43 = registerValueToHex;
-          _context3.next = 153;
-          return processor.readMem8(P5MF32_addr);
-        case 153:
-          _context3.t44 = _context3.sent;
-          value_P5MF32 = (0, _context3.t43)(_context3.t44);
-          _context3.t45 = registerValueToHex;
-          _context3.next = 158;
-          return processor.readMem8(P5MF54_addr);
-        case 158:
-          _context3.t46 = _context3.sent;
-          value_P5MF54 = (0, _context3.t45)(_context3.t46);
-          _context3.t47 = registerValueToHex;
-          _context3.next = 163;
-          return processor.readMem8(P5MF76_addr);
-        case 163:
-          _context3.t48 = _context3.sent;
-          value_P5MF76 = (0, _context3.t47)(_context3.t48);
-          _context3.t49 = registerValueToHex;
-          _context3.next = 168;
-          return processor.readMem8(P6MF10_addr);
-        case 168:
-          _context3.t50 = _context3.sent;
-          value_P6MF10 = (0, _context3.t49)(_context3.t50);
-          _context3.t51 = registerValueToHex;
-          _context3.next = 173;
-          return processor.readMem8(P6MF32_addr);
-        case 173:
-          _context3.t52 = _context3.sent;
-          value_P6MF32 = (0, _context3.t51)(_context3.t52);
-          _context3.t53 = registerValueToHex;
-          _context3.next = 178;
-          return processor.readMem8(P6MF54_addr);
-        case 178:
-          _context3.t54 = _context3.sent;
-          value_P6MF54 = (0, _context3.t53)(_context3.t54);
-          _context3.t55 = registerValueToHex;
-          _context3.next = 183;
-          return processor.readMem8(P6MF76_addr);
-        case 183:
-          _context3.t56 = _context3.sent;
-          value_P6MF76 = (0, _context3.t55)(_context3.t56);
-          _context3.next = 187;
-          return processor.writeMem8(sfrs_addr, sfs_data[0]);
-        case 187:
-          _context3.next = 189;
-          return processor.resume();
-        case 189:
-          postMessage({
-            'action': 'returnRegisterValue',
-            'register': 'P0MF76543210',
-            'type': '8051',
-            'value': "".concat(value_P0MF76).concat(value_P0MF54).concat(value_P0MF32).concat(value_P0MF10)
-          });
-          postMessage({
-            'action': 'returnRegisterValue',
-            'register': 'P1MF76543210',
-            'type': '8051',
-            'value': "".concat(value_P1MF76).concat(value_P1MF54).concat(value_P1MF32).concat(value_P1MF10)
-          });
-          postMessage({
-            'action': 'returnRegisterValue',
-            'register': 'P2MF76543210',
-            'type': '8051',
-            'value': "".concat(value_P2MF76).concat(value_P2MF54).concat(value_P2MF32).concat(value_P2MF10)
-          });
-          postMessage({
-            'action': 'returnRegisterValue',
-            'register': 'P3MF76543210',
-            'type': '8051',
-            'value': "".concat(value_P3MF76).concat(value_P3MF54).concat(value_P3MF32).concat(value_P3MF10)
-          });
-          postMessage({
-            'action': 'returnRegisterValue',
-            'register': 'P4MF76543210',
-            'type': '8051',
-            'value': "".concat(value_P4MF76).concat(value_P4MF54).concat(value_P4MF32).concat(value_P4MF10)
-          });
-          postMessage({
-            'action': 'returnRegisterValue',
-            'register': 'P5MF76543210',
-            'type': '8051',
-            'value': "".concat(value_P5MF76).concat(value_P5MF54).concat(value_P5MF32).concat(value_P5MF10)
-          });
-          postMessage({
-            'action': 'returnRegisterValue',
-            'register': 'P6MF76543210',
-            'type': '8051',
-            'value': "".concat(value_P6MF76).concat(value_P6MF54).concat(value_P6MF32).concat(value_P6MF10)
-          });
-          _context3.next = 198;
-          return disconnect();
-        case 198:
-          _context3.next = 205;
-          break;
-        case 200:
-          _context3.prev = 200;
-          _context3.t57 = _context3["catch"](32);
-          console.log(_context3.t57);
-          _context3.next = 205;
-          return disconnect();
-        case 205:
-          _context3.next = 207;
+          _context3.next = 34;
           return new Promise(function (r) {
             return setTimeout(r, refreshTimeMS);
           });
-        case 207:
-          _context3.next = 212;
+        case 34:
+          _context3.next = 39;
           break;
-        case 209:
-          _context3.prev = 209;
-          _context3.t58 = _context3["catch"](0);
-          console.log(_context3.t58);
-        case 212:
+        case 36:
+          _context3.prev = 36;
+          _context3.t1 = _context3["catch"](0);
+          console.log(_context3.t1);
+        case 39:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[0, 209], [3, 25], [32, 200]]);
+    }, _callee3, null, [[0, 36], [3, 25]]);
   }));
   return function getRegisterValue() {
     return _ref3.apply(this, arguments);
@@ -2734,8 +2486,8 @@ onmessage = /*#__PURE__*/function () {
             break;
           }
           console.log('worker: getMFPValues');
-          getRegisterValue();
           addrs = data;
+          getRegisterValue();
           _context8.next = 27;
           break;
         case 20:

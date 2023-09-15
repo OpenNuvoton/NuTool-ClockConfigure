@@ -1,9 +1,17 @@
+// import MenuBuilder from './menu';
+const { app, BrowserWindow, ipcMain } = require('electron')
+const path = require('path')
+const webusb = require('usb').webusb;
 const DAPjs = require('dapjs');
 const PROCESSOR_TYPE_ARM_CM0 = 'PROCESSOR_TYPE_ARM_CM0';
 const PROCESSOR_TYPE_ARM_CM4 = 'PROCESSOR_TYPE_ARM_CM4';
 const PROCESSOR_TYPE_ARM_CM23 = 'PROCESSOR_TYPE_ARM_CM23'
 const PROCESSOR_TYPE_UNDEFINED = 'PROCESSOR_TYPE_UNDEFINED';
 
+const isDebug =
+    process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+
+let windows = [];
 let processor, proecssorType, baseAddr;
 let usbIsConnecting = false;
 let bCortexMConnecting = false;
@@ -42,9 +50,9 @@ const P6MF32_addr = 0x20000000 + 0x93
 const P6MF54_addr = 0x20000000 + 0x94
 const P6MF76_addr = 0x20000000 + 0x95
 
-/****************************
+/*******************************************
  * USB Related
- ****************************/
+ *******************************************/
 
 const connect = async () => {
     // 不是connecting的話，取得device instance
@@ -62,7 +70,7 @@ const connect = async () => {
                 console.log('Cortex-M is connected.');
                 usbIsConnecting = true;
                 bCortexMConnecting = true;
-                postMessage({ 'action': 'connected' });
+                windows.mainWindow.webContents.send('connected');
             } catch (error) {
                 console.log(error);
             }
@@ -76,7 +84,7 @@ const connect = async () => {
 
                     console.log('8051 is connected.');
                     usbIsConnecting = true;
-                    postMessage({ 'action': 'connected' });
+                    windows.mainWindow.webContents.send('connected');
                 } catch (error) {
                     console.log(error);
                 }
@@ -89,6 +97,8 @@ const connect = async () => {
         } else {
             await disconnect();
         }
+    } else {
+        windows.mainWindow.webContents.send('warning', 'USB is connecting.');
     }
 }
 
@@ -99,13 +109,13 @@ const getPIDValue = async () => {
             baseAddr = await getBaseAddress(proecssorType);
             await getPID(baseAddr).then(function (result) {
                 let pidValue = '0x' + ('00000000' + result.toString(16).toUpperCase()).slice(-8);
-                postMessage({ 'action': 'returnPIDValue', 'value': pidValue });
+                windows.mainWindow.webContents.send('returnPIDValue', pidValue);
             });
         } else {
             /* 8051 */
             try {
                 let pidValue = '0x' + ('00000000' + pidDec.toString(16).toUpperCase()).slice(-8);
-                postMessage({ 'action': 'returnPIDValue', 'value': pidValue });
+                windows.mainWindow.webContents.send('returnPIDValue', pidValue);
             } catch (error) {
                 console.log(error);
                 await disconnect();
@@ -131,13 +141,12 @@ const getRegisterValue = async () => {
                 for (let i = 0; i < addrs.length; i++) {
                     showing_buffer = await processor.readBlock(0x00000000 + Number(addrs[i]), 1);
                     let value = ('00000000' + showing_buffer[0].toString(16)).slice(-8);
-                    // postMessage({ 'action': 'returnRegisterValue', 'addr': addrs[i], 'value': value, 'type': 'CortexM' });
                     var obj = {};
                     obj[`${addrs[i]}`] = value;
                     console.log(`${addrs[i]}, ${value}`);
                     result.push(obj);
                 }
-                postMessage({ 'action': 'returnRegisterValue', 'result': result, 'type': 'CortexM' });
+                windows.mainWindow.webContents.send('returnRegisterValue', result, "CortexM");
                 await disconnect();
             } catch (error) {
                 console.log(error);
@@ -160,7 +169,7 @@ const disconnect = async () => {
     baseAddr = undefined;
     usbIsConnecting = false;
     bCortexMConnecting = false;
-    postMessage({ 'action': 'disconnect' });
+    windows.mainWindow.webContents.send('disconnect');
 }
 
 const getProecssorType = async () => {
@@ -251,8 +260,8 @@ onmessage = async (e) => {
         getPIDValue();
     } else if (action == 'getMFPValues') {
         console.log('worker: getMFPValues');
-        addrs = data;
         getRegisterValue();
+        addrs = data;
     } else if (action == 'connectComplete') {    // TODO: not checked yet
         console.log('worker: connectComplete');
         await disconnect();
@@ -261,3 +270,97 @@ onmessage = async (e) => {
         refreshTimeMS = data;
     }
 }
+
+/*******************************************
+ * Main BrowserWindow Related
+ *******************************************/
+
+function createWindow() {
+    // Create the browser window.
+    const mainWindow = new BrowserWindow({
+        width: 1600,
+        height: 900,
+        autoHideMenuBar: true,
+        webPreferences: {
+            devTools: true,
+            preload: path.join(__dirname, "preload.js") // use a preload script
+        }
+    })
+
+    // and load the index.html of the app.
+    mainWindow.loadFile(path.join(__dirname, 'index.htm'))
+
+    // build menu
+    // const menuBuilder = new MenuBuilder(mainWindow);
+    // menuBuilder.buildMenu();
+
+    // Devtool will show by default in debug mode
+    if (isDebug) {
+        mainWindow.webContents.openDevTools();
+    }
+
+    mainWindow.webContents.on('did-finish-load', function () {
+        windows.mainWindow = mainWindow;
+
+        // Receive IPC data from renderer
+        ipcMain.on('connect', async (event, arg) => {
+            console.log('ipcMain: connect()');
+            connDevice = await webusb.requestDevice({
+                filters: [{ vendorId: 0x0416 }]
+            }).catch(error => {
+                console.log(error);
+                connDevice = undefined;
+            });
+            connect();
+        });
+        ipcMain.on('getPIDValue', async (event, arg) => {
+            console.log('ipcMain: getPIDValue');
+            getPIDValue();
+        });
+        ipcMain.on('getMFPValues', async (event, arg) => {
+            console.log('ipcMain: getMFPValues');
+            addrs = arg;
+            getRegisterValue();
+        });
+        ipcMain.on('connectComplete', async (event, arg) => {
+            console.log('ipcMain: connectComplete');
+            await disconnect();
+        });
+    });
+
+    if (!isDebug) {
+        mainWindow.on('close', function (e) {
+            var choice = require('electron').dialog.showMessageBoxSync(this,
+                {
+                    type: 'question',
+                    buttons: ['Yes', 'No'],
+                    title: 'Warning',
+                    message: 'Are you sure you want to quit?'
+                });
+            if (choice == 1) {
+                e.preventDefault();
+            }
+        });
+    }
+}
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.whenReady().then(() => {
+    createWindow()
+
+    app.on('activate', function () {
+        // On macOS it's common to re-create a window in the app when the
+        // dock icon is clicked and there are no other windows open.
+        if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    })
+})
+
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
+app.on('window-all-closed', /*async () =>*/ function () {
+    //   await processor.disconnect();
+    if (process.platform !== 'darwin') app.quit()
+})

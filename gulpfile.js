@@ -28,7 +28,7 @@ function buildWorker() {
         .pipe(gulp.dest(path.WEBUSB_WORKER_DEST));
 }
 
-function buildMain() {
+function buildNucClockConf() {
     return gulp.src(path.NUC_CLOCK_CONF)
         .pipe(rename(path.NUC_CLOCK_CONF_OUT))
         .pipe(terser({}, terser.minify))
@@ -37,13 +37,13 @@ function buildMain() {
 
 function watch() {
     gulp.watch([path.WEBUSB_WORKER], buildWorker);
-    gulp.watch([path.NUC_CLOCK_CONF], buildMain);
+    gulp.watch([path.NUC_CLOCK_CONF], buildNucClockConf);
 }
 
-var build = gulp.parallel(buildWorker, buildMain);
+var build = gulp.parallel(buildWorker, buildNucClockConf);
 
 exports.buildWorker = buildWorker
-exports.buildMain = buildMain
+exports.buildNucClockConf = buildNucClockConf
 
 exports.watch = watch;
 exports.default = build;
