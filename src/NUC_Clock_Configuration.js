@@ -15245,29 +15245,6 @@ var NUTOOL_CLOCK = {};
     // IPC Renderer
     // 趕時間，所以直接複製webusb的flow過來，有機會再合併
     function setIPCListener() {
-        var bitPosition, mask,
-            sOSC10K_EN = 'OSC10K_EN'.toEquivalent().toString(),
-            sOSC22M_EN = 'OSC22M_EN'.toEquivalent().toString(),
-            sOSC22M2_EN = 'OSC22M2_EN'.toEquivalent().toString(),
-            sXTL32K_EN = 'XTL32K_EN'.toEquivalent().toString(),
-            sXTL12M_EN = 'XTL12M_EN'.toEquivalent().toString(),
-            sPWRCON = 'PWRCON'.toEquivalent().toString(),
-            sHCLK_S = 'HCLK_S'.toEquivalent().toString(),
-            sSTCLK_S = 'STCLK_S'.toEquivalent().toString(),
-            sCLKO = 'CLKO'.toEquivalent().toString(),
-            sCLKO_Divider = 'CLKO_Divider'.toEquivalent().toString(),
-            sCLKO1 = 'CLKO1'.toEquivalent().toString(),
-            sCLKO1_Divider = 'CLKO1_Divider'.toEquivalent().toString(),
-            sSYST_CSR = 'SYST_CSR'.toEquivalent().toString(),
-            s_S = '_S'.toEquivalent().toString(),
-            sHXT = 'HXT'.toEquivalent().toString(),
-            sPLL = 'PLL'.toEquivalent().toString(),
-            sHIRC = 'HIRC'.toEquivalent().toString(),
-            sHIRC2 = 'HIRC2'.toEquivalent().toString(),
-            sLIRC = 'LIRC'.toEquivalent().toString(),
-            sHCLK = 'HCLK'.toEquivalent().toString(),
-            sPCLK = 'PCLK'.toEquivalent().toString();
-
         window.electronAPI.onConnected((event, value) => {
             console.log('electronAPI: onConnected');
             // 確認連接後取PIDValue
@@ -15304,240 +15281,7 @@ var NUTOOL_CLOCK = {};
         // 接收到斷線通知
         window.electronAPI.onReturnRegisterValue((event, result, type) => {
             console.log('electronAPI: onReturnRegisterValue');
-            if (type == 'CortexM') {
-                var regs = [];
-                var inputFreq, PLLFreq, APLLFreq;
-                var PLLSRC, PLLSrcValue, XHTSrcValue, HIRCSrcValue, MIRCSrcValue;
-                var bHXTSrcEnable = false;
-                var bHIRCSrcEnable = false;
-                var bMIRCSrcEnable = false;
-                regNames = getPropertyNames(NUTOOL_CLOCK.g_register_map_description);
-                // 先抓出來各個clock是否enable
-                for (var m in result) {
-                    for (var n = 0; n < regNames.length; n++) {
-                        if (NUTOOL_CLOCK.g_register_map_description[regNames[n]] == Object.keys(result[m])[0]) {
-                            var value = result[m][Object.keys(result[m])[0]];
-                            if (regNames[n] == 'PWRCTL') {
-                                for (i = 0, max = g_clockRegisterNames.length; i < max; i += 1) {
-                                    var clockRegName = g_clockRegisterNames[i];
-                                    for (j = 0, maxJ = NUTOOL_CLOCK.g_register_map[clockRegName].length; j < maxJ; j += 1) {
-                                        var fullFieldName = NUTOOL_CLOCK.g_register_map[clockRegName][j];
-                                        // Check HXT
-                                        if (fullFieldName.indexOf(sXTL12M_EN) !== -1 || fullFieldName.indexOf('XTL12M_EN') !== -1) {
-                                            bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
-                                            mask = (1 << bitPosition) >>> 0;
-                                            XHTSrcValue = (parseInt(value, 16) & mask) >>> 0;
-                                            XHTSrcValue = (XHTSrcValue >>> bitPosition) >>> 0;
-                                            if (XHTSrcValue == 1) bHXTSrcEnable = true;
-                                        }
-                                        // Check HIRC
-                                        else if (fullFieldName.indexOf(sOSC22M_EN) !== -1 || fullFieldName.indexOf('OSC22M_EN') !== -1) {
-                                            bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
-                                            mask = (1 << bitPosition) >>> 0;
-                                            HIRCSrcValue = (parseInt(value, 16) & mask) >>> 0;
-                                            HIRCSrcValue = (HIRCSrcValue >>> bitPosition) >>> 0;
-                                            if (HIRCSrcValue == 1) bHIRCSrcEnable = true;
-                                        }
-                                        // Check MIRC
-                                        else if (fullFieldName.indexOf('MIRCEN') !== -1) {
-                                            bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
-                                            mask = (1 << bitPosition) >>> 0;
-                                            MIRCSrcValue = (parseInt(value, 16) & mask) >>> 0;
-                                            MIRCSrcValue = (MIRCSrcValue >>> bitPosition) >>> 0;
-                                            if (MIRCSrcValue == 1) bMIRCSrcEnable = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                // 再算PLL的值
-                for (var m in result) {
-                    for (var n = 0; n < regNames.length; n++) {
-                        if (NUTOOL_CLOCK.g_register_map_description[regNames[n]] == Object.keys(result[m])[0]) {
-                            var value = result[m][Object.keys(result[m])[0]];
-                            // TODO: 把讀值部分拆到計算PLL值的部分，解決不只一個PLL的問題
-                            // PLL
-                            if (regNames[n] == 'PLLCTL' || regNames[n] == 'CHIPPLLCTR1') {
-                                for (i = 0, max = g_clockRegisterNames.length; i < max; i += 1) {
-                                    var clockRegName = g_clockRegisterNames[i];
-                                    for (j = 0, maxJ = NUTOOL_CLOCK.g_register_map[clockRegName].length; j < maxJ; j += 1) {
-                                        var fullFieldName = NUTOOL_CLOCK.g_register_map[clockRegName][j];
-                                        if (fullFieldName.indexOf('PLL_SRC') !== -1 && fullFieldName.indexOf(':') === 'PLL_SRC'.length) {
-                                            if (fullFieldName.indexOf('-') === -1) {
-                                                bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
-                                                mask = (1 << bitPosition) >>> 0;
-                                            }
-                                            else {
-                                                bitPosition = parseInt(fullFieldName.sliceAfterX('-'), 10);
-                                                bitCount = parseInt(fullFieldName.sliceBetweenXandX(':', '-'), 10) - bitPosition + 1;
-                                                mask = ((Math.pow(2, bitCount) - 1) << bitPosition) >>> 0;
-                                            }
-                                            PLLSrcValue = (parseInt(value, 16) & mask) >>> 0;
-                                            PLLSrcValue = (PLLSrcValue >>> bitPosition) >>> 0;
-                                            break;
-                                        }
-                                    }
-                                }
-                                console.log('PLLSrcValue:' + PLLSrcValue);
-
-                                if (g_chipType.indexOf("KM1M7AF") === 0 || g_chipType.indexOf("KM1M7BF") === 0 || g_chipType === "NUC505") {
-                                    PLLSRC = 'HXT';
-                                    inputFreq = $('#HXTEN_input').val() * 1000000;
-                                } else if (g_chipType.indexOf("KM1M7CF") === 0) {
-                                    switch (PLLSrcValue) {
-                                        case 0: // HIRC
-                                            PLLSRC = 'HIRC';
-                                            inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                            break;
-                                        case 1: // HXT
-                                            PLLSRC = 'HXT';
-                                            inputFreq = $('#HXTEN_input').val() * 1000000;
-                                            break;
-                                        default:
-                                            PLLSRC = 'HIRC';
-                                            inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                    }
-                                } else if (g_chipType.indexOf("M25") === 0) {
-                                    switch (PLLSrcValue) {
-                                        case 0: // HXT
-                                        case 2: // HXT
-                                            PLLSRC = 'HXT';
-                                            inputFreq = $('#HXTEN_input').val() * 1000000;
-                                            break;
-                                        case 1: // HIRC
-                                            PLLSRC = 'HIRC';
-                                            inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                            break;
-                                        case 3: // MIRC
-                                            PLLSRC = 'MIRC';
-                                            inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
-                                            break;
-                                        default: // only one source
-                                            if (isFieldBe1(sOSC10K_EN)) {
-                                                PLLSRC = 'HIRC';
-                                                inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                            }
-                                            else if (isFieldBe1('MIRCEN')) {
-                                                PLLSRC = 'MIRC';
-                                                inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
-                                            }
-                                            else {
-                                                PLLSRC = 'HXT';
-                                                inputFreq = $('#HXTEN_input').val() * 1000000;
-                                            }
-                                            break;
-                                    }
-                                } else {
-                                    switch (PLLSrcValue) {
-                                        case 0: // HXT
-                                            PLLSRC = 'HXT';
-                                            inputFreq = $('#HXTEN_input').val() * 1000000;
-                                            break;
-                                        case 1: // HIRC
-                                            PLLSRC = 'HIRC';
-                                            inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                            break;
-                                        case 2: // MIRC
-                                        case 3: // MIRC
-                                            PLLSRC = 'MIRC';
-                                            inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
-                                            break;
-                                        default: // only one source
-                                            if (isFieldBe1(sOSC10K_EN)) {
-                                                PLLSRC = 'HIRC';
-                                                inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                            }
-                                            else if (isFieldBe1('MIRCEN')) {
-                                                PLLSRC = 'MIRC';
-                                                inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
-                                            }
-                                            else {
-                                                PLLSRC = 'HXT';
-                                                inputFreq = $('#HXTEN_input').val() * 1000000;
-                                            }
-                                            break;
-                                    }
-                                }
-
-                                console.log('PLLSRC:' + PLLSRC);
-                                console.log('inputFreq:' + inputFreq);
-                                console.log('value:' + value);
-                                console.log('bHXTSrcEnable:' + bHXTSrcEnable);
-                                console.log('bHIRCSrcEnable:' + bHIRCSrcEnable);
-                                console.log('bMIRCSrcEnable:' + bMIRCSrcEnable);
-                                // PLL的source clock有開才需要計算PLL的值
-                                if ((PLLSRC == 'HXT' && bHXTSrcEnable) || (PLLSRC == 'HIRC' && bHIRCSrcEnable) || (PLLSRC == 'MIRC' && bMIRCSrcEnable)) {
-                                    PLLFreq = calculatePLLfrequency(inputFreq, value);
-                                    if (g_realAPLLoutputClock > 0) {
-                                        APLLFreq = calculateAPLLfrequency(inputFreq, value);
-                                    }
-                                }
-                                console.log('PLLFreq:' + PLLFreq);
-                            }
-                            regs.push(`Reg:${regNames[n]} = 0x${value}\r\n`);
-                            break;
-                        }
-                    }
-                }
-                // 使用load file的flow來呈現讀到的資訊，所以要做一個和config file一樣的text，目前先固定回到step 1
-                var text = `MCU:${g_partNumber_package}\r\n`;
-                for (var i = 0; i < regs.length; i++) {
-                    text = text + regs[i];
-                }
-                // 決定總共有幾個clock
-
-                if (isFieldBe1(sXTL32K_EN)) {
-                    text = text + `LXT:32768\r\n`;
-                }
-                if (isFieldBe1('LIRC32KEN')) {
-                    text = text + `LXT:32000\r\n`;
-                }
-                if (isFieldBe1(sXTL12M_EN)) {
-                    text = text + `${sHXT}:${parseFloat($('#' + sXTL12M_EN + '_input').val()) * 1000000}\r\n`;
-                    if (g_realHSUSBOTGPHYoutputClock > 0) {
-                        text = text + `HSUSB_OTG_PHY:${NUTOOL_CLOCK.g_HSUSBOTGPHYfrequency}\r\n`;
-                    }
-                }
-                if (PLLFreq != undefined && PLLFreq > 0) {
-                    text = text + `PLL:${PLLFreq}\r\n`;
-                }
-                // TODO:
-                // if (isFieldBe1('PLL2CKEN') && g_realPLL2outputClock > 0) {
-                //     g_enabledBaseClocks.push('PLL2');
-                // }
-                // if (g_realPLL2outputClock > 0) {
-                //     text = text + `PLL2:${g_realPLL2outputClock}\r\n`;
-                // }
-                // if (g_realPLL480MoutputClock > 0) {
-                //     text = text + `PLL480M:${g_realPLL480MoutputClock}\r\n`;
-                // }
-                if (g_realAPLLoutputClock > 0) {
-                    text = text + `APLL:${APLLFreq}\r\n`;
-                }
-                if (g_realPLLFNoutputClock > 0) {
-                    text = text + `PLLFN:${PLLFg_realPLLFNoutputClockreq}\r\n`;
-                }
-                if (NUTOOL_CLOCK.g_RTC32kfrequency !== 0) {
-                    text = text + `RTC32k:${NUTOOL_CLOCK.g_RTC32kfrequency}\r\n`;
-                }
-                // 決定總共有幾個page
-                if (text.indexOf('PLL') != -1) {
-                    text = text + `Step:4\r\n`;
-                } else {
-                    text = text + `Step:3\r\n`;
-                }
-                console.log(text);
-                // 執行loadConfig_core()
-                NUTOOL_CLOCK.g_readConfigFileContentText = text;
-                NUTOOL_CLOCK.g_readConfigFilePath = 'dummyPath';
-                loadConfig_core();
-            } else if (type == '8051') {
-                // TODO: (Clock尚未支援8051)
-            } else {
-                console.log("returnRegisterValue: unknown type.");
-            }
+            onReturnRegisterValue(result, type);
         });
         // 接收到斷線通知
         window.electronAPI.onDisconnect((event, value) => {
@@ -15550,57 +15294,7 @@ var NUTOOL_CLOCK = {};
         });
     }
 
-    async function connectToChipWeb() {
-        var connDevice;
-        if (worker != undefined) {
-            // 先確認現在有沒有連上device
-            await navigator.usb.getDevices().then((devices) => {
-                devices.forEach((device) => {
-                    connDevice = device;
-                });
-            }).catch(error => {
-                console.log(error);
-                connDevice = undefined;
-            });
-            // 如果沒有連上任何device的話，執行requestDevice()讓使用者選擇device
-            if (connDevice == undefined) {
-                connDevice = await navigator.usb.requestDevice({
-                    filters: [{ vendorId: 0x0416 }]
-                }).catch(error => {
-                    console.log(error);
-                    connDevice = undefined;
-                });
-            }
-            // 選到任一裝置後，叫worker進行讀PID的動作
-            if (connDevice != undefined) {
-                worker.postMessage({ 'action': 'connect' });
-            }
-        }
-    }
-
     function setWorkerListener() {
-        var sOSC10K_EN = 'OSC10K_EN'.toEquivalent().toString(),
-            sOSC22M_EN = 'OSC22M_EN'.toEquivalent().toString(),
-            sOSC22M2_EN = 'OSC22M2_EN'.toEquivalent().toString(),
-            sXTL32K_EN = 'XTL32K_EN'.toEquivalent().toString(),
-            sXTL12M_EN = 'XTL12M_EN'.toEquivalent().toString(),
-            sPWRCON = 'PWRCON'.toEquivalent().toString(),
-            sHCLK_S = 'HCLK_S'.toEquivalent().toString(),
-            sSTCLK_S = 'STCLK_S'.toEquivalent().toString(),
-            sCLKO = 'CLKO'.toEquivalent().toString(),
-            sCLKO_Divider = 'CLKO_Divider'.toEquivalent().toString(),
-            sCLKO1 = 'CLKO1'.toEquivalent().toString(),
-            sCLKO1_Divider = 'CLKO1_Divider'.toEquivalent().toString(),
-            sSYST_CSR = 'SYST_CSR'.toEquivalent().toString(),
-            s_S = '_S'.toEquivalent().toString(),
-            sHXT = 'HXT'.toEquivalent().toString(),
-            sPLL = 'PLL'.toEquivalent().toString(),
-            sHIRC = 'HIRC'.toEquivalent().toString(),
-            sHIRC2 = 'HIRC2'.toEquivalent().toString(),
-            sLIRC = 'LIRC'.toEquivalent().toString(),
-            sHCLK = 'HCLK'.toEquivalent().toString(),
-            sPCLK = 'PCLK'.toEquivalent().toString();
-
         worker.onmessage = async function (e) {
             let action = e.data.action;
             let data = e.data;
@@ -15634,192 +15328,293 @@ var NUTOOL_CLOCK = {};
                 }
             } else if (action == 'returnRegisterValue') {
                 console.log('connect action: returnRegisterValue');
-                if (data.type == 'CortexM') {
-                    var regs = [];
-                    var inputFreq, PLLFreq, APLLFreq;
-                    var PLLSRC, PLLSrcValue;
-                    regNames = getPropertyNames(NUTOOL_CLOCK.g_register_map_description);
-                    for (var m in data.result) {
-                        for (n = 0; n < regNames.length; n++) {
-                            if (NUTOOL_CLOCK.g_register_map_description[regNames[n]] == Object.keys(data.result[m])[0]) {
-                                var value = data.result[m][Object.keys(data.result[m])[0]];
-                                // TODO: 把讀值部分拆到計算PLL值的部分，解決不只一個PLL的問題
-                                // PLL
-                                if (regNames[n] == 'PLLCTL' || regNames[n] == 'CHIPPLLCTR1') {
-                                    for (i = 0, max = g_clockRegisterNames.length; i < max; i += 1) {
-                                        var clockRegName = g_clockRegisterNames[i];
-                                        for (j = 0, maxJ = NUTOOL_CLOCK.g_register_map[clockRegName].length; j < maxJ; j += 1) {
-                                            var fullFieldName = NUTOOL_CLOCK.g_register_map[clockRegName][j];
-                                            if (fullFieldName.indexOf('PLL_SRC') !== -1 && fullFieldName.indexOf(':') === 'PLL_SRC'.length) {
-                                                if (fullFieldName.indexOf('-') === -1) {
-                                                    bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
-                                                    mask = (1 << bitPosition) >>> 0;
-                                                }
-                                                else {
-                                                    bitPosition = parseInt(fullFieldName.sliceAfterX('-'), 10);
-                                                    bitCount = parseInt(fullFieldName.sliceBetweenXandX(':', '-'), 10) - bitPosition + 1;
-                                                    mask = ((Math.pow(2, bitCount) - 1) << bitPosition) >>> 0;
-                                                }
-                                                PLLSrcValue = (value & mask) >>> 0;
-                                                PLLSrcValue = (PLLSrcValue >>> bitPosition) >>> 0;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    console.log('PLLSrcValue:' + PLLSrcValue);
-
-                                    if (g_chipType.indexOf("KM1M7AF") === 0 || g_chipType.indexOf("KM1M7BF") === 0 || g_chipType === "NUC505") {
-                                        PLLSRC = 'HXT';
-                                        inputFreq = $('#HXTEN_input').val() * 1000000;
-                                    } else if (g_chipType.indexOf("KM1M7CF") === 0) {
-                                        switch (PLLSrcValue) {
-                                            case 0: // HIRC
-                                                PLLSRC = 'HIRC';
-                                                inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                                break;
-                                            case 1: // HXT
-                                                PLLSRC = 'HXT';
-                                                inputFreq = $('#HXTEN_input').val() * 1000000;
-                                                break;
-                                            default:
-                                                PLLSRC = 'HIRC';
-                                                inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                        }
-                                    } else if (g_chipType.indexOf("M25") === 0) {
-                                        switch (PLLSrcValue) {
-                                            case 0: // HXT
-                                            case 2: // HXT
-                                                PLLSRC = 'HXT';
-                                                inputFreq = $('#HXTEN_input').val() * 1000000;
-                                                break;
-                                            case 1: // HIRC
-                                                PLLSRC = 'HIRC';
-                                                inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                                break;
-                                            case 3: // MIRC
-                                                PLLSRC = 'MIRC';
-                                                inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
-                                                break;
-                                            default: // only one source
-                                                if (isFieldBe1(sOSC10K_EN)) {
-                                                    PLLSRC = 'HIRC';
-                                                    inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                                }
-                                                else if (isFieldBe1('MIRCEN')) {
-                                                    PLLSRC = 'MIRC';
-                                                    inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
-                                                }
-                                                else {
-                                                    PLLSRC = 'HXT';
-                                                    inputFreq = $('#HXTEN_input').val() * 1000000;
-                                                }
-                                                break;
-                                        }
-                                    } else {
-                                        switch (PLLSrcValue) {
-                                            case 0: // HXT
-                                                PLLSRC = 'HXT';
-                                                inputFreq = $('#HXTEN_input').val() * 1000000;
-                                                break;
-                                            case 1: // HIRC
-                                                PLLSRC = 'HIRC';
-                                                inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                                break;
-                                            case 2: // MIRC
-                                            case 3: // MIRC
-                                                PLLSRC = 'MIRC';
-                                                inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
-                                                break;
-                                            default: // only one source
-                                                if (isFieldBe1(sOSC10K_EN)) {
-                                                    PLLSRC = 'HIRC';
-                                                    inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
-                                                }
-                                                else if (isFieldBe1('MIRCEN')) {
-                                                    PLLSRC = 'MIRC';
-                                                    inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
-                                                }
-                                                else {
-                                                    PLLSRC = 'HXT';
-                                                    inputFreq = $('#HXTEN_input').val() * 1000000;
-                                                }
-                                                break;
-                                        }
-                                    }
-
-                                    PLLFreq = calculatePLLfrequency(inputFreq, value);
-                                    APLLFreq = calculateAPLLfrequency(inputFreq, value);
-                                    console.log('PLLSRC:' + PLLSRC);
-                                    console.log('inputFreq:' + inputFreq);
-                                    console.log('PLLFreq:' + PLLFreq);
-                                }
-                                regs.push(`Reg:${regNames[n]} = 0x${value}\r\n`);
-                                break;
-                            }
-                        }
-                    }
-                    // 使用load file的flow來呈現讀到的資訊，所以要做一個和config file一樣的text，目前先固定回到step 1
-                    var text = `MCU:${g_partNumber_package}\r\n`;
-                    for (var i = 0; i < regs.length; i++) {
-                        text = text + regs[i];
-                    }
-                    // 決定總共有幾個clock
-
-                    if (isFieldBe1(sXTL32K_EN)) {
-                        text = text + `LXT:32768\r\n`;
-                    }
-                    if (isFieldBe1('LIRC32KEN')) {
-                        text = text + `LXT:32000\r\n`;
-                    }
-                    if (isFieldBe1(sXTL12M_EN)) {
-                        text = text + `${sHXT}:${parseFloat($('#' + sXTL12M_EN + '_input').val()) * 1000000}\r\n`;
-                        if (g_realHSUSBOTGPHYoutputClock > 0) {
-                            text = text + `HSUSB_OTG_PHY:${NUTOOL_CLOCK.g_HSUSBOTGPHYfrequency}\r\n`;
-                        }
-                    }
-                    if (PLLFreq != undefined && PLLFreq > 0) {
-                        text = text + `PLL:${PLLFreq}\r\n`;
-                    }
-                    // TODO:
-                    // if (isFieldBe1('PLL2CKEN') && g_realPLL2outputClock > 0) {
-                    //     g_enabledBaseClocks.push('PLL2');
-                    // }
-                    // if (g_realPLL2outputClock > 0) {
-                    //     text = text + `PLL2:${g_realPLL2outputClock}\r\n`;
-                    // }
-                    // if (g_realPLL480MoutputClock > 0) {
-                    //     text = text + `PLL480M:${g_realPLL480MoutputClock}\r\n`;
-                    // }
-                    if (g_realAPLLoutputClock > 0) {
-                        text = text + `APLL:${APLLFreq}\r\n`;
-                    }
-                    if (g_realPLLFNoutputClock > 0) {
-                        text = text + `PLLFN:${PLLFg_realPLLFNoutputClockreq}\r\n`;
-                    }
-                    if (NUTOOL_CLOCK.g_RTC32kfrequency !== 0) {
-                        text = text + `RTC32k:${NUTOOL_CLOCK.g_RTC32kfrequency}\r\n`;
-                    }
-                    // 決定總共有幾個page
-                    if (text.indexOf('PLL') != -1) {
-                        text = text + `Step:4\r\n`;
-                    } else {
-                        text = text + `Step:3\r\n`;
-                    }
-                    console.log(text);
-                    // 執行loadConfig_core()
-                    NUTOOL_CLOCK.g_readConfigFileContentText = text;
-                    NUTOOL_CLOCK.g_readConfigFilePath = 'dummyPath';
-                    loadConfig_core();
-                } else if (data.type == '8051') {
-                    // TODO: (Clock尚未支援8051)
-                } else {
-                    console.log("returnRegisterValue: unknown type.");
-                }
+                onReturnRegisterValue(data.result, data.type);
             } else if (action == 'disconnect') {
                 console.log("webusb disconnected");
                 deviceConnected = false;
             }
         };
+    }
+
+    function onReturnRegisterValue(result, type) {
+        var bitPosition, mask,
+            sOSC10K_EN = 'OSC10K_EN'.toEquivalent().toString(),
+            sOSC22M_EN = 'OSC22M_EN'.toEquivalent().toString(),
+            sOSC22M2_EN = 'OSC22M2_EN'.toEquivalent().toString(),
+            sXTL32K_EN = 'XTL32K_EN'.toEquivalent().toString(),
+            sXTL12M_EN = 'XTL12M_EN'.toEquivalent().toString(),
+            sPWRCON = 'PWRCON'.toEquivalent().toString(),
+            sHCLK_S = 'HCLK_S'.toEquivalent().toString(),
+            sSTCLK_S = 'STCLK_S'.toEquivalent().toString(),
+            sCLKO = 'CLKO'.toEquivalent().toString(),
+            sCLKO_Divider = 'CLKO_Divider'.toEquivalent().toString(),
+            sCLKO1 = 'CLKO1'.toEquivalent().toString(),
+            sCLKO1_Divider = 'CLKO1_Divider'.toEquivalent().toString(),
+            sSYST_CSR = 'SYST_CSR'.toEquivalent().toString(),
+            s_S = '_S'.toEquivalent().toString(),
+            sHXT = 'HXT'.toEquivalent().toString(),
+            sPLL = 'PLL'.toEquivalent().toString(),
+            sHIRC = 'HIRC'.toEquivalent().toString(),
+            sHIRC2 = 'HIRC2'.toEquivalent().toString(),
+            sLIRC = 'LIRC'.toEquivalent().toString(),
+            sHCLK = 'HCLK'.toEquivalent().toString(),
+            sPCLK = 'PCLK'.toEquivalent().toString();
+
+        if (type == 'CortexM') {
+            var regs = [];
+            var inputFreq, PLLFreq, APLLFreq;
+            var PLLSRC, PLLSrcValue, XHTSrcValue, HIRCSrcValue, MIRCSrcValue;
+            var bHXTSrcEnable = false;
+            var bHIRCSrcEnable = false;
+            var bMIRCSrcEnable = false;
+            regNames = getPropertyNames(NUTOOL_CLOCK.g_register_map_description);
+            // 先抓出來各個clock是否enable
+            for (var m in result) {
+                for (var n = 0; n < regNames.length; n++) {
+                    if (NUTOOL_CLOCK.g_register_map_description[regNames[n]] == Object.keys(result[m])[0]) {
+                        var value = result[m][Object.keys(result[m])[0]];
+                        if (regNames[n] == 'PWRCTL') {
+                            for (i = 0, max = g_clockRegisterNames.length; i < max; i += 1) {
+                                var clockRegName = g_clockRegisterNames[i];
+                                for (j = 0, maxJ = NUTOOL_CLOCK.g_register_map[clockRegName].length; j < maxJ; j += 1) {
+                                    var fullFieldName = NUTOOL_CLOCK.g_register_map[clockRegName][j];
+                                    // Check HXT
+                                    if (fullFieldName.indexOf(sXTL12M_EN) !== -1 || fullFieldName.indexOf('XTL12M_EN') !== -1) {
+                                        bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
+                                        mask = (1 << bitPosition) >>> 0;
+                                        XHTSrcValue = (parseInt(value, 16) & mask) >>> 0;
+                                        XHTSrcValue = (XHTSrcValue >>> bitPosition) >>> 0;
+                                        if (XHTSrcValue == 1) bHXTSrcEnable = true;
+                                    }
+                                    // Check HIRC
+                                    else if (fullFieldName.indexOf(sOSC22M_EN) !== -1 || fullFieldName.indexOf('OSC22M_EN') !== -1) {
+                                        bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
+                                        mask = (1 << bitPosition) >>> 0;
+                                        HIRCSrcValue = (parseInt(value, 16) & mask) >>> 0;
+                                        HIRCSrcValue = (HIRCSrcValue >>> bitPosition) >>> 0;
+                                        if (HIRCSrcValue == 1) bHIRCSrcEnable = true;
+                                    }
+                                    // Check MIRC
+                                    else if (fullFieldName.indexOf('MIRCEN') !== -1) {
+                                        bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
+                                        mask = (1 << bitPosition) >>> 0;
+                                        MIRCSrcValue = (parseInt(value, 16) & mask) >>> 0;
+                                        MIRCSrcValue = (MIRCSrcValue >>> bitPosition) >>> 0;
+                                        if (MIRCSrcValue == 1) bMIRCSrcEnable = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // 再算PLL的值
+            for (var m in result) {
+                for (var n = 0; n < regNames.length; n++) {
+                    if (NUTOOL_CLOCK.g_register_map_description[regNames[n]] == Object.keys(result[m])[0]) {
+                        var value = result[m][Object.keys(result[m])[0]];
+                        // TODO: 把讀值部分拆到計算PLL值的部分，解決不只一個PLL的問題
+                        // PLL
+                        if (regNames[n] == 'PLLCTL' || regNames[n] == 'CHIPPLLCTR1') {
+                            for (i = 0, max = g_clockRegisterNames.length; i < max; i += 1) {
+                                var clockRegName = g_clockRegisterNames[i];
+                                for (j = 0, maxJ = NUTOOL_CLOCK.g_register_map[clockRegName].length; j < maxJ; j += 1) {
+                                    var fullFieldName = NUTOOL_CLOCK.g_register_map[clockRegName][j];
+                                    if (fullFieldName.indexOf('PLL_SRC') !== -1 && fullFieldName.indexOf(':') === 'PLL_SRC'.length) {
+                                        if (fullFieldName.indexOf('-') === -1) {
+                                            bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
+                                            mask = (1 << bitPosition) >>> 0;
+                                        }
+                                        else {
+                                            bitPosition = parseInt(fullFieldName.sliceAfterX('-'), 10);
+                                            bitCount = parseInt(fullFieldName.sliceBetweenXandX(':', '-'), 10) - bitPosition + 1;
+                                            mask = ((Math.pow(2, bitCount) - 1) << bitPosition) >>> 0;
+                                        }
+                                        PLLSrcValue = (parseInt(value, 16) & mask) >>> 0;
+                                        PLLSrcValue = (PLLSrcValue >>> bitPosition) >>> 0;
+                                        break;
+                                    }
+                                }
+                            }
+                            console.log('PLLSrcValue:' + PLLSrcValue);
+
+                            if (g_chipType.indexOf("KM1M7AF") === 0 || g_chipType.indexOf("KM1M7BF") === 0 || g_chipType === "NUC505") {
+                                PLLSRC = 'HXT';
+                                inputFreq = $('#HXTEN_input').val() * 1000000;
+                            } else if (g_chipType.indexOf("KM1M7CF") === 0) {
+                                switch (PLLSrcValue) {
+                                    case 0: // HIRC
+                                        PLLSRC = 'HIRC';
+                                        inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
+                                        break;
+                                    case 1: // HXT
+                                        PLLSRC = 'HXT';
+                                        inputFreq = $('#HXTEN_input').val() * 1000000;
+                                        break;
+                                    default:
+                                        PLLSRC = 'HIRC';
+                                        inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
+                                }
+                            } else if (g_chipType.indexOf("M25") === 0) {
+                                switch (PLLSrcValue) {
+                                    case 0: // HXT
+                                    case 2: // HXT
+                                        PLLSRC = 'HXT';
+                                        inputFreq = $('#HXTEN_input').val() * 1000000;
+                                        break;
+                                    case 1: // HIRC
+                                        PLLSRC = 'HIRC';
+                                        inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
+                                        break;
+                                    case 3: // MIRC
+                                        PLLSRC = 'MIRC';
+                                        inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
+                                        break;
+                                    default: // only one source
+                                        if (isFieldBe1(sOSC10K_EN)) {
+                                            PLLSRC = 'HIRC';
+                                            inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
+                                        }
+                                        else if (isFieldBe1('MIRCEN')) {
+                                            PLLSRC = 'MIRC';
+                                            inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
+                                        }
+                                        else {
+                                            PLLSRC = 'HXT';
+                                            inputFreq = $('#HXTEN_input').val() * 1000000;
+                                        }
+                                        break;
+                                }
+                            } else {
+                                switch (PLLSrcValue) {
+                                    case 0: // HXT
+                                        PLLSRC = 'HXT';
+                                        inputFreq = $('#HXTEN_input').val() * 1000000;
+                                        break;
+                                    case 1: // HIRC
+                                        PLLSRC = 'HIRC';
+                                        inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
+                                        break;
+                                    case 2: // MIRC
+                                    case 3: // MIRC
+                                        PLLSRC = 'MIRC';
+                                        inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
+                                        break;
+                                    default: // only one source
+                                        if (isFieldBe1(sOSC10K_EN)) {
+                                            PLLSRC = 'HIRC';
+                                            inputFreq = NUTOOL_CLOCK.g_HIRCfrequency;
+                                        }
+                                        else if (isFieldBe1('MIRCEN')) {
+                                            PLLSRC = 'MIRC';
+                                            inputFreq = NUTOOL_CLOCK.g_MIRCfrequency;
+                                        }
+                                        else {
+                                            PLLSRC = 'HXT';
+                                            inputFreq = $('#HXTEN_input').val() * 1000000;
+                                        }
+                                        break;
+                                }
+                            }
+                            // PLL的source clock有開才需要計算PLL的值
+                            if ((PLLSRC == 'HXT' && bHXTSrcEnable) || (PLLSRC == 'HIRC' && bHIRCSrcEnable) || (PLLSRC == 'MIRC' && bMIRCSrcEnable)) {
+                                PLLFreq = calculatePLLfrequency(inputFreq, value);
+                                if (g_realAPLLoutputClock > 0) {
+                                    APLLFreq = calculateAPLLfrequency(inputFreq, value);
+                                }
+                            }
+                            console.log('PLLFreq:' + PLLFreq);
+                        }
+                        regs.push(`Reg:${regNames[n]} = 0x${value}\r\n`);
+                        break;
+                    }
+                }
+            }
+            // 使用load file的flow來呈現讀到的資訊，所以要做一個和config file一樣的text，目前先固定回到step 1
+            var text = `MCU:${g_partNumber_package}\r\n`;
+            for (var i = 0; i < regs.length; i++) {
+                text = text + regs[i];
+            }
+            // 決定總共有幾個clock
+
+            if (isFieldBe1(sXTL32K_EN)) {
+                text = text + `LXT:32768\r\n`;
+            }
+            if (isFieldBe1('LIRC32KEN')) {
+                text = text + `LXT:32000\r\n`;
+            }
+            if (isFieldBe1(sXTL12M_EN)) {
+                text = text + `${sHXT}:${parseFloat($('#' + sXTL12M_EN + '_input').val()) * 1000000}\r\n`;
+                if (g_realHSUSBOTGPHYoutputClock > 0) {
+                    text = text + `HSUSB_OTG_PHY:${NUTOOL_CLOCK.g_HSUSBOTGPHYfrequency}\r\n`;
+                }
+            }
+            if (PLLFreq != undefined && PLLFreq > 0) {
+                text = text + `PLL:${PLLFreq}\r\n`;
+            }
+            // TODO:
+            // if (isFieldBe1('PLL2CKEN') && g_realPLL2outputClock > 0) {
+            //     g_enabledBaseClocks.push('PLL2');
+            // }
+            // if (g_realPLL2outputClock > 0) {
+            //     text = text + `PLL2:${g_realPLL2outputClock}\r\n`;
+            // }
+            // if (g_realPLL480MoutputClock > 0) {
+            //     text = text + `PLL480M:${g_realPLL480MoutputClock}\r\n`;
+            // }
+            if (g_realAPLLoutputClock > 0) {
+                text = text + `APLL:${APLLFreq}\r\n`;
+            }
+            if (g_realPLLFNoutputClock > 0) {
+                text = text + `PLLFN:${PLLFg_realPLLFNoutputClockreq}\r\n`;
+            }
+            if (NUTOOL_CLOCK.g_RTC32kfrequency !== 0) {
+                text = text + `RTC32k:${NUTOOL_CLOCK.g_RTC32kfrequency}\r\n`;
+            }
+            // 決定總共有幾個page
+            if (text.indexOf('PLL') != -1) {
+                text = text + `Step:4\r\n`;
+            } else {
+                text = text + `Step:3\r\n`;
+            }
+            console.log(text);
+            // 執行loadConfig_core()
+            NUTOOL_CLOCK.g_readConfigFileContentText = text;
+            NUTOOL_CLOCK.g_readConfigFilePath = 'dummyPath';
+            loadConfig_core();
+        } else if (type == '8051') {
+            // TODO: (Clock尚未支援8051)
+        } else {
+            console.log("returnRegisterValue: unknown type.");
+        }
+    }
+
+    async function connectToChipWeb() {
+        var connDevice;
+        if (worker != undefined) {
+            // 先確認現在有沒有連上device
+            await navigator.usb.getDevices().then((devices) => {
+                devices.forEach((device) => {
+                    connDevice = device;
+                });
+            }).catch(error => {
+                console.log(error);
+                connDevice = undefined;
+            });
+            // 如果沒有連上任何device的話，執行requestDevice()讓使用者選擇device
+            if (connDevice == undefined) {
+                connDevice = await navigator.usb.requestDevice({
+                    filters: [{ vendorId: 0x0416 }]
+                }).catch(error => {
+                    console.log(error);
+                    connDevice = undefined;
+                });
+            }
+            // 選到任一裝置後，叫worker進行讀PID的動作
+            if (connDevice != undefined) {
+                worker.postMessage({ 'action': 'connect' });
+            }
+        }
     }
 
     function getPIDFromPIDValue(PIDValue) {
