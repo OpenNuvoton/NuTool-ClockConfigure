@@ -15253,7 +15253,6 @@ var NUTOOL_CLOCK = {};
         });
         window.electronAPI.onReturnPIDValue((event, pidValue) => {
             console.log('electronAPI: onReturnPIDValue');
-            console.log(pidValue);
             // 取得PIDValue後換成PID
             connectedDevicePID = getPIDFromPIDValue(pidValue);
             console.log('connected device: ' + connectedDevicePID);
@@ -15299,13 +15298,14 @@ var NUTOOL_CLOCK = {};
             let action = e.data.action;
             let data = e.data;
             if (action == 'connected') {
+                console.log('worker: connected');
                 // 確認連接後取PIDValue
                 deviceConnected = true;
                 worker.postMessage({ 'action': 'getPIDValue' });
             } else if (action == 'returnPIDValue') {
+                console.log('worker: returnPIDValue');
                 // 取得PIDValue後換成PID
                 connectedDevicePID = getPIDFromPIDValue(data.value);
-                console.log('connected device: ' + connectedDevicePID);
                 // 確認連接的chip是否為現在畫面上呈現的chip
                 if (g_partNumber_package.toUpperCase().indexOf(connectedDevicePID.toUpperCase()) != -1) {
                     // 紀錄各個register的預設位址
@@ -15327,10 +15327,10 @@ var NUTOOL_CLOCK = {};
                         `Please switch to the Chip Series and Part No. that matches the connected chip.`);
                 }
             } else if (action == 'returnRegisterValue') {
-                console.log('connect action: returnRegisterValue');
+                console.log('worker: returnRegisterValue');
                 onReturnRegisterValue(data.result, data.type);
             } else if (action == 'disconnect') {
-                console.log("webusb disconnected");
+                console.log('worker: disconnect');
                 deviceConnected = false;
             }
         };
@@ -15436,7 +15436,6 @@ var NUTOOL_CLOCK = {};
                                     }
                                 }
                             }
-                            console.log('PLLSrcValue:' + PLLSrcValue);
 
                             if (g_chipType.indexOf("KM1M7AF") === 0 || g_chipType.indexOf("KM1M7BF") === 0 || g_chipType === "NUC505") {
                                 PLLSRC = 'HXT';
@@ -15523,7 +15522,6 @@ var NUTOOL_CLOCK = {};
                                     APLLFreq = calculateAPLLfrequency(inputFreq, value);
                                 }
                             }
-                            console.log('PLLFreq:' + PLLFreq);
                         }
                         regs.push(`Reg:${regNames[n]} = 0x${value}\r\n`);
                         break;
@@ -15577,7 +15575,7 @@ var NUTOOL_CLOCK = {};
             } else {
                 text = text + `Step:3\r\n`;
             }
-            console.log(text);
+            // console.log(text);
             // 執行loadConfig_core()
             NUTOOL_CLOCK.g_readConfigFileContentText = text;
             NUTOOL_CLOCK.g_readConfigFilePath = 'dummyPath';
@@ -15663,17 +15661,11 @@ var NUTOOL_CLOCK = {};
         var FBDIV, NF, INDIV, NR, OUTDIV, NO, FOUT;
         var PLLIDIV, PLLODIV, PLLMUL;
 
-        console.log('Fin:' + Fin);
-        console.log('regValue:' + regValue);
         if (g_chipType.indexOf("M25") === 0) {
             regValueBinary = ('0000000000000000' + parseInt(regValue, 16).toString(2)).slice(-16);
-            console.log('regValueBinary:' + regValueBinary);
             FBDIV = regValueBinary.slice(-6);
-            console.log('FBDIV:' + FBDIV);
             INDIV = regValueBinary.slice(3, 7);
-            console.log('INDIV:' + INDIV);
             OUTDIV = regValueBinary.slice(0, 2);
-            console.log('OUTDIV:' + OUTDIV);
             switch (OUTDIV) {
                 case '00':
                     NO = 1;
@@ -15689,30 +15681,23 @@ var NUTOOL_CLOCK = {};
                     NO = 1;
                     break;
             }
-            console.log('NO:' + NO);
             // Input Divider (INDIV), when INDIV =0, NR = 16
             if (parseInt(INDIV, 2) == 0) {
                 NR = 16;
             } else {
                 NR = parseInt(INDIV, 2);
             }
-            console.log('NR:' + NR);
             // Feedback Divider (FBDIV), when FBDIV=0, NF = 64
             if (parseInt(FBDIV, 2) == 0) {
                 NF = 64;
             } else {
                 NF = parseInt(FBDIV, 2);
             }
-            console.log('NF:' + NF);
         } else if (g_chipType.indexOf("NANO100AN") === 0 || g_chipType.indexOf("NANO100BN") === 0) {
             regValueBinary = ('0000000000000000' + parseInt(regValue, 16).toString(2)).slice(-16);
-            console.log('regValueBinary:' + regValueBinary);
             FBDIV = regValueBinary.slice(-6);
-            console.log('FBDIV:' + FBDIV);
             INDIV = regValueBinary.slice(6, 8);
-            console.log('INDIV:' + INDIV);
             OUTDIV = regValueBinary.slice(3, 4);
-            console.log('OUTDIV:' + OUTDIV);
             switch (OUTDIV) {
                 case '0':
                     NO = 1;
@@ -15724,7 +15709,6 @@ var NUTOOL_CLOCK = {};
                     NO = 1;
                     break;
             }
-            console.log('NO:' + NO);
             // Input Divider
             switch (INDIV) {
                 case '00':
@@ -15743,33 +15727,20 @@ var NUTOOL_CLOCK = {};
                     NR = 2;
                     break;
             }
-            console.log('NR:' + NR);
             NF = parseInt(FBDIV, 2) + 32;    // Feedback Divider (FB_DV + 32)
-            console.log('NF:' + NF);
         } else if (g_chipType === "NUC505") {
             regValueBinary = ('0000000000000000' + parseInt(regValue, 16).toString(2)).slice(-16);
-            console.log('regValueBinary:' + regValueBinary);
             FBDIV = regValueBinary.slice(-7);
-            console.log('FBDIV:' + FBDIV);
             INDIV = regValueBinary.slice(3, 9);
-            console.log('INDIV:' + INDIV);
             OUTDIV = regValueBinary.slice(0, 3);
-            console.log('OUTDIV:' + OUTDIV);
             NO = parseInt(OUTDIV, 2) + 1;   // OUTDIV[2:0]+1 (P)
-            console.log('NO:' + NO);
             NR = parseInt(INDIV, 2) + 1;    // INDIV[5:0]+1 (M)
-            console.log('NR:' + NR);
             NF = parseInt(FBDIV, 2) + 1;    // FBDIV[6:0]+1 (N)
-            console.log('NF:' + NF);
         } else if (g_chipType === 'M261' || g_chipType.indexOf("M460") === 0 || g_chipType.indexOf("M480") === 0) {
             regValueBinary = ('0000000000000000' + parseInt(regValue, 16).toString(2)).slice(-16);
-            console.log('regValueBinary:' + regValueBinary);
             FBDIV = regValueBinary.slice(-9);
-            console.log('FBDIV:' + FBDIV);
             INDIV = regValueBinary.slice(2, 7);
-            console.log('INDIV:' + INDIV);
             OUTDIV = regValueBinary.slice(0, 2);
-            console.log('OUTDIV:' + OUTDIV);
             switch (OUTDIV) {
                 case '00':
                     NO = 1;
@@ -15785,45 +15756,27 @@ var NUTOOL_CLOCK = {};
                     NO = 1;
                     break;
             }
-            console.log('NO:' + NO);
             NR = parseInt(INDIV, 2) + 1;    // Input Divider (INDIV + 1)
-            console.log('NR:' + NR);
             NF = parseInt(FBDIV, 2) + 2;    // Feedback Divider (FBDIV + 2)
-            console.log('NF:' + NF);
         } else if (g_chipType.indexOf("KM1M4") === 0) {
             regValueBinary = ('0000000000000000' + parseInt(regValue, 16).toString(2)).slice(-16);
-            console.log('regValueBinary:' + regValueBinary);
             PLLMUL = parseInt(regValueBinary.slice(-7), 2);
-            console.log('PLLMUL:' + PLLMUL);
             PLLIDIV = parseInt(regValueBinary.slice(6, 8), 2);
-            console.log('PLLIDIV:' + PLLIDIV);
         } else if (g_chipType.indexOf("KM1M7AF") === 0 || g_chipType.indexOf("KM1M7BF") === 0) {
             regValueBinary = ('0000000000000000' + parseInt(regValue, 16).toString(2)).slice(-16);
-            console.log('regValueBinary:' + regValueBinary);
             PLLMUL = parseInt(regValueBinary.slice(-5), 2);
-            console.log('PLLMUL:' + PLLMUL);
             PLLODIV = parseInt(regValueBinary.slice(9, 10), 2);
-            console.log('PLLODIV:' + PLLODIV);
             PLLIDIV = parseInt(regValueBinary.slice(6, 8), 2);
-            console.log('PLLIDIV:' + PLLIDIV);
         } else if (g_chipType.indexOf("KM1M7CF") === 0) {
             regValueBinary = ('0000000000000000' + parseInt(regValue, 16).toString(2)).slice(-16);
-            console.log('regValueBinary:' + regValueBinary);
             PLLMUL = parseInt(regValueBinary.slice(-5), 2);
-            console.log('PLLMUL:' + PLLMUL);
             PLLODIV = parseInt(regValueBinary.slice(9, 10), 2);
-            console.log('PLLODIV:' + PLLODIV);
             PLLIDIV = parseInt(regValueBinary.slice(6, 7), 2);
-            console.log('PLLIDIV:' + PLLIDIV);
         } else {
             regValueBinary = ('0000000000000000' + parseInt(regValue, 16).toString(2)).slice(-16);
-            console.log('regValueBinary:' + regValueBinary);
             FBDIV = regValueBinary.slice(-9);
-            console.log('FBDIV:' + FBDIV);
             INDIV = regValueBinary.slice(2, 7);
-            console.log('INDIV:' + INDIV);
             OUTDIV = regValueBinary.slice(0, 2);
-            console.log('OUTDIV:' + OUTDIV);
             switch (OUTDIV) {
                 case '00':
                     NO = 1;
@@ -15839,11 +15792,8 @@ var NUTOOL_CLOCK = {};
                     NO = 1;
                     break;
             }
-            console.log('NO:' + NO);
             NR = parseInt(INDIV, 2) + 2;    // Input Divider (INDIV + 2)
-            console.log('NR:' + NR);
             NF = parseInt(FBDIV, 2) + 2;    // Feedback Divider (FBDIV + 2)
-            console.log('NF:' + NF);
         }
 
         if (g_chipType.indexOf("KM1M") === 0) { // NTCJ series
@@ -15891,23 +15841,14 @@ var NUTOOL_CLOCK = {};
     function calculateAPLLfrequency(Fin, regValue) {
         var FBDIV, NF, INDIV, NR, OUTDIV, NO, FOUT;
 
-        console.log('Fin:' + Fin);
-        console.log('regValue:' + regValue);
         if (g_chipType === "NUC505") {
             regValueBinary = ('0000000000000000' + parseInt(regValue, 16).toString(2)).slice(-16);
-            console.log('regValueBinary:' + regValueBinary);
             FBDIV = regValueBinary.slice(3, 10);
-            console.log('FBDIV:' + FBDIV);
             INDIV = regValueBinary.slice(-6);
-            console.log('INDIV:' + INDIV);
             OUTDIV = regValueBinary.slice(0, 3);
-            console.log('OUTDIV:' + OUTDIV);
             NO = parseInt(OUTDIV, 2) + 1;   // OUTDIV[2:0]+1 (P)
-            console.log('NO:' + NO);
             NR = parseInt(INDIV, 2) + 1;    // INDIV[5:0]+1 (M)
-            console.log('NR:' + NR);
             NF = parseInt(FBDIV, 2) + 1;    // FBDIV[6:0]+1 (N)
-            console.log('NF:' + NF);
         } else {
         }
         if (FBDIV == undefined || NF == undefined || INDIV == undefined || NR == undefined || OUTDIV == undefined || NO == undefined) {
