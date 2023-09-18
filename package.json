@@ -1,6 +1,6 @@
 {
   "name": "clockconfigweb",
-  "version": "1.07.0002",
+  "version": "1.08.0001",
   "description": "",
   "main": "main.js",
   "scripts": {
@@ -53,8 +53,13 @@
       ],
       "icon": "build/app.ico"
     },
+    "directories": {
+      "buildResources": "assets",
+      "output": "release/build"
+    },
     "extraResources": [
-      "./src/res/**"
+      "./src/res/**",
+      "./assets/**"
     ]
   }
 }

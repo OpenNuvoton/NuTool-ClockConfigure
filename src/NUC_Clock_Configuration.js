@@ -4,7 +4,7 @@ var NUTOOL_CLOCK = {};
 
 (function () {
     // all the global variables within the immediately-invoked function scope
-    const VERSION_CODE = 'V1.07.0002';
+    const VERSION_CODE = 'V1.08.0001';
     var g_NUC_TreeView_Width = 250,
         g_NUC_TreeView_Height,
         g_Dialog_Width,
@@ -13960,7 +13960,9 @@ var NUTOOL_CLOCK = {};
         g_bIsTriggerMultiConfiguring = false;
     }
 
-    function saveConfig() {
+    function saveConfig(filename) {
+        console.log("filename:" + filename);
+        console.log(filename == undefined ? `${g_partNumber_package}.ncfg` : `${filename}.ncfg`);
         if (checkClockConfigureCorrectness(showClockConfigureError)) {
             try {
                 concatenate_g_clockRegsString();
@@ -13981,7 +13983,7 @@ var NUTOOL_CLOCK = {};
                     + `${g_clockRegsString}`
                     + `/*** (C) COPYRIGHT 2013-${(new Date()).getFullYear()}${g_copyrightCompanyName} ***/\r\n`
                 var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-                saveAs(blob, `${g_partNumber_package}.ncfg`);
+                saveAs(blob, filename == undefined ? `${g_partNumber_package}.ncfg` : `${filename}.ncfg`);
             } catch (err) {
                 console.log("saveConfig failed, meg:" + err);
             }
@@ -14484,7 +14486,7 @@ var NUTOOL_CLOCK = {};
         }
 
         // Generate .cfg
-        saveConfig();
+        saveConfig($('#inputText_projectName').val());
     }
 
     function concatenate_g_clockRegsString() {
