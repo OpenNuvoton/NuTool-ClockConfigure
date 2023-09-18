@@ -15245,7 +15245,8 @@ var NUTOOL_CLOCK = {};
     // IPC Renderer
     // 趕時間，所以直接複製webusb的flow過來，有機會再合併
     function setIPCListener() {
-        var sOSC10K_EN = 'OSC10K_EN'.toEquivalent().toString(),
+        var bitPosition, mask,
+            sOSC10K_EN = 'OSC10K_EN'.toEquivalent().toString(),
             sOSC22M_EN = 'OSC22M_EN'.toEquivalent().toString(),
             sOSC22M2_EN = 'OSC22M2_EN'.toEquivalent().toString(),
             sXTL32K_EN = 'XTL32K_EN'.toEquivalent().toString(),
@@ -15275,11 +15276,12 @@ var NUTOOL_CLOCK = {};
         });
         window.electronAPI.onReturnPIDValue((event, pidValue) => {
             console.log('electronAPI: onReturnPIDValue');
+            console.log(pidValue);
             // 取得PIDValue後換成PID
             connectedDevicePID = getPIDFromPIDValue(pidValue);
             console.log('connected device: ' + connectedDevicePID);
             // 確認連接的chip是否為現在畫面上呈現的chip
-            if (g_partNumber_package.indexOf(connectedDevicePID) != -1) {
+            if (g_partNumber_package.toUpperCase().indexOf(connectedDevicePID.toUpperCase()) != -1) {
                 // 紀錄各個register的預設位址
                 var addrs = [];
                 var regNames = [];
@@ -15305,10 +15307,54 @@ var NUTOOL_CLOCK = {};
             if (type == 'CortexM') {
                 var regs = [];
                 var inputFreq, PLLFreq, APLLFreq;
-                var PLLSRC, PLLSrcValue;
+                var PLLSRC, PLLSrcValue, XHTSrcValue, HIRCSrcValue, MIRCSrcValue;
+                var bHXTSrcEnable = false;
+                var bHIRCSrcEnable = false;
+                var bMIRCSrcEnable = false;
                 regNames = getPropertyNames(NUTOOL_CLOCK.g_register_map_description);
+                // 先抓出來各個clock是否enable
                 for (var m in result) {
-                    for (n = 0; n < regNames.length; n++) {
+                    for (var n = 0; n < regNames.length; n++) {
+                        if (NUTOOL_CLOCK.g_register_map_description[regNames[n]] == Object.keys(result[m])[0]) {
+                            var value = result[m][Object.keys(result[m])[0]];
+                            if (regNames[n] == 'PWRCTL') {
+                                for (i = 0, max = g_clockRegisterNames.length; i < max; i += 1) {
+                                    var clockRegName = g_clockRegisterNames[i];
+                                    for (j = 0, maxJ = NUTOOL_CLOCK.g_register_map[clockRegName].length; j < maxJ; j += 1) {
+                                        var fullFieldName = NUTOOL_CLOCK.g_register_map[clockRegName][j];
+                                        // Check HXT
+                                        if (fullFieldName.indexOf(sXTL12M_EN) !== -1 || fullFieldName.indexOf('XTL12M_EN') !== -1) {
+                                            bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
+                                            mask = (1 << bitPosition) >>> 0;
+                                            XHTSrcValue = (parseInt(value, 16) & mask) >>> 0;
+                                            XHTSrcValue = (XHTSrcValue >>> bitPosition) >>> 0;
+                                            if (XHTSrcValue == 1) bHXTSrcEnable = true;
+                                        }
+                                        // Check HIRC
+                                        else if (fullFieldName.indexOf(sOSC22M_EN) !== -1 || fullFieldName.indexOf('OSC22M_EN') !== -1) {
+                                            bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
+                                            mask = (1 << bitPosition) >>> 0;
+                                            HIRCSrcValue = (parseInt(value, 16) & mask) >>> 0;
+                                            HIRCSrcValue = (HIRCSrcValue >>> bitPosition) >>> 0;
+                                            if (HIRCSrcValue == 1) bHIRCSrcEnable = true;
+                                        }
+                                        // Check MIRC
+                                        else if (fullFieldName.indexOf('MIRCEN') !== -1) {
+                                            bitPosition = parseInt(fullFieldName.sliceAfterX(':'), 10);
+                                            mask = (1 << bitPosition) >>> 0;
+                                            MIRCSrcValue = (parseInt(value, 16) & mask) >>> 0;
+                                            MIRCSrcValue = (MIRCSrcValue >>> bitPosition) >>> 0;
+                                            if (MIRCSrcValue == 1) bMIRCSrcEnable = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                // 再算PLL的值
+                for (var m in result) {
+                    for (var n = 0; n < regNames.length; n++) {
                         if (NUTOOL_CLOCK.g_register_map_description[regNames[n]] == Object.keys(result[m])[0]) {
                             var value = result[m][Object.keys(result[m])[0]];
                             // TODO: 把讀值部分拆到計算PLL值的部分，解決不只一個PLL的問題
@@ -15328,7 +15374,7 @@ var NUTOOL_CLOCK = {};
                                                 bitCount = parseInt(fullFieldName.sliceBetweenXandX(':', '-'), 10) - bitPosition + 1;
                                                 mask = ((Math.pow(2, bitCount) - 1) << bitPosition) >>> 0;
                                             }
-                                            PLLSrcValue = (g_clockRegs[clockRegName] & mask) >>> 0;
+                                            PLLSrcValue = (parseInt(value, 16) & mask) >>> 0;
                                             PLLSrcValue = (PLLSrcValue >>> bitPosition) >>> 0;
                                             break;
                                         }
@@ -15415,10 +15461,19 @@ var NUTOOL_CLOCK = {};
                                     }
                                 }
 
-                                PLLFreq = calculatePLLfrequency(inputFreq, value);
-                                APLLFreq = calculateAPLLfrequency(inputFreq, value);
                                 console.log('PLLSRC:' + PLLSRC);
                                 console.log('inputFreq:' + inputFreq);
+                                console.log('value:' + value);
+                                console.log('bHXTSrcEnable:' + bHXTSrcEnable);
+                                console.log('bHIRCSrcEnable:' + bHIRCSrcEnable);
+                                console.log('bMIRCSrcEnable:' + bMIRCSrcEnable);
+                                // PLL的source clock有開才需要計算PLL的值
+                                if ((PLLSRC == 'HXT' && bHXTSrcEnable) || (PLLSRC == 'HIRC' && bHIRCSrcEnable) || (PLLSRC == 'MIRC' && bMIRCSrcEnable)) {
+                                    PLLFreq = calculatePLLfrequency(inputFreq, value);
+                                    if (g_realAPLLoutputClock > 0) {
+                                        APLLFreq = calculateAPLLfrequency(inputFreq, value);
+                                    }
+                                }
                                 console.log('PLLFreq:' + PLLFreq);
                             }
                             regs.push(`Reg:${regNames[n]} = 0x${value}\r\n`);
@@ -15558,7 +15613,7 @@ var NUTOOL_CLOCK = {};
                 connectedDevicePID = getPIDFromPIDValue(data.value);
                 console.log('connected device: ' + connectedDevicePID);
                 // 確認連接的chip是否為現在畫面上呈現的chip
-                if (g_partNumber_package.indexOf(connectedDevicePID) != -1) {
+                if (g_partNumber_package.toUpperCase().indexOf(connectedDevicePID.toUpperCase()) != -1) {
                     // 紀錄各個register的預設位址
                     var addrs = [];
                     var regNames = [];
@@ -15605,7 +15660,7 @@ var NUTOOL_CLOCK = {};
                                                     bitCount = parseInt(fullFieldName.sliceBetweenXandX(':', '-'), 10) - bitPosition + 1;
                                                     mask = ((Math.pow(2, bitCount) - 1) << bitPosition) >>> 0;
                                                 }
-                                                PLLSrcValue = (g_clockRegs[clockRegName] & mask) >>> 0;
+                                                PLLSrcValue = (value & mask) >>> 0;
                                                 PLLSrcValue = (PLLSrcValue >>> bitPosition) >>> 0;
                                                 break;
                                             }
@@ -15854,7 +15909,7 @@ var NUTOOL_CLOCK = {};
                 NF = parseInt(FBDIV, 2);
             }
             console.log('NF:' + NF);
-        } else if (g_chipType === 'NANO100AN' || g_chipType === 'NANO100BN') {
+        } else if (g_chipType.indexOf("NANO100AN") === 0 || g_chipType.indexOf("NANO100BN") === 0) {
             regValueBinary = ('0000000000000000' + parseInt(regValue, 16).toString(2)).slice(-16);
             console.log('regValueBinary:' + regValueBinary);
             FBDIV = regValueBinary.slice(-6);
@@ -15864,10 +15919,10 @@ var NUTOOL_CLOCK = {};
             OUTDIV = regValueBinary.slice(3, 4);
             console.log('OUTDIV:' + OUTDIV);
             switch (OUTDIV) {
-                case '00':
+                case '0':
                     NO = 1;
                     break;
-                case '01':
+                case '1':
                     NO = 2;
                     break;
                 default:
@@ -16028,6 +16083,9 @@ var NUTOOL_CLOCK = {};
             if (FBDIV == undefined || NF == undefined || INDIV == undefined || NR == undefined || OUTDIV == undefined || NO == undefined) {
                 console.log('Error: calculatePLLfrequency() failed');
                 return;
+            } else if (g_chipType === 'M261' || g_chipType.indexOf("M460") === 0 || g_chipType.indexOf("M480") === 0) {
+                FOUT = Fin * (2 * NF / NR) * (1 / NO);
+
             } else {    // default case
                 FOUT = Fin * (NF / NR) * (1 / NO);
             }
@@ -16058,7 +16116,7 @@ var NUTOOL_CLOCK = {};
         } else {
         }
         if (FBDIV == undefined || NF == undefined || INDIV == undefined || NR == undefined || OUTDIV == undefined || NO == undefined) {
-            console.log('Error: calculatePLLfrequency() failed');
+            console.log('Error: calculateAPLLfrequency() failed');
             return;
         } else {    // default case
             FOUT = Fin * (NF / NR) * (1 / NO);
