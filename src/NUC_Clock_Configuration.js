@@ -15147,7 +15147,7 @@ var NUTOOL_CLOCK = {};
             setLanguage();
         });
         $('#ID_BUTTON_INSTRUCTION').on('click', function () {
-            window.open('https://www.nuvoton.com/export/resource-files/UM_NuTool-ClockConfigure_EN_Rev1.07.pdf');
+            window.open('https://www.nuvoton.com/resource-download.jsp?tp_GUID=UG1320220506173038');
             // TODO: 改成直接顯示不要下載/目前只有開UM，沒有support chips
         });
     }
