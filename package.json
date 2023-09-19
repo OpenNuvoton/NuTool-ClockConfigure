@@ -1,5 +1,5 @@
 {
-  "name": "clockconfigweb",
+  "name": "nutool-clockconfigure",
   "version": "1.08.0001",
   "description": "",
   "main": "main.js",
@@ -34,8 +34,8 @@
     "worker-plugin": "^5.0.1"
   },
   "build": {
-    "productName": "NuTool-ClockConfig",
-    "appId": "com.nuvoton.clockconfig",
+    "productName": "NuTool-ClockConfigure",
+    "appId": "com.nuvoton.clockconfigure",
     "npmRebuild": false,
     "files": [
       "index.htm",
@@ -48,10 +48,20 @@
     ],
     "win": {
       "target": [
-        "nsis",
-        "zip"
+        {
+          "target": "nsis"
+        }
       ],
       "icon": "build/app.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "NuTool-ClockConfigure",
+      "include": "release/script/installer.nsh"
     },
     "directories": {
       "buildResources": "assets",
