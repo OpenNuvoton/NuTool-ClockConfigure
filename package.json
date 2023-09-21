@@ -10,7 +10,7 @@
     "build": "gulp && cross-env NODE_ENV=production electron-builder --win --x64"
   },
   "author": "NUVOTON TECHNOLOGY CORPORATION",
-  "copyright": "Copyright ©2008-2022 Nuvoton Technology Corporation",
+  "copyright": "Copyright ©2008-2023 Nuvoton Technology Corporation",
   "license": "UNLICENSED",
   "dependencies": {
     "dapjs": "file:local_modules/dapjs-yc",
