@@ -2048,6 +2048,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var DAPjs = require('dapjs');
 var PROCESSOR_TYPE_ARM_CM0 = 'PROCESSOR_TYPE_ARM_CM0';
 var PROCESSOR_TYPE_ARM_CM4 = 'PROCESSOR_TYPE_ARM_CM4';
+var PROCESSOR_TYPE_ARM_CM55 = 'PROCESSOR_TYPE_ARM_CM55';
 var PROCESSOR_TYPE_ARM_CM23 = 'PROCESSOR_TYPE_ARM_CM23';
 var PROCESSOR_TYPE_UNDEFINED = 'PROCESSOR_TYPE_UNDEFINED';
 var processor, proecssorType, baseAddr;
@@ -2345,7 +2346,7 @@ var getProecssorType = /*#__PURE__*/function () {
           });
         case 2:
           _context5.t0 = uPartNo;
-          _context5.next = _context5.t0 === 'C20' ? 5 : _context5.t0 === 'C24' ? 6 : _context5.t0 === 'D20' ? 7 : 8;
+          _context5.next = _context5.t0 === 'C20' ? 5 : _context5.t0 === 'C24' ? 6 : _context5.t0 === 'D20' ? 7 : _context5.t0 === 'D22' ? 8 : 9;
           break;
         case 5:
           return _context5.abrupt("return", PROCESSOR_TYPE_ARM_CM0);
@@ -2354,8 +2355,10 @@ var getProecssorType = /*#__PURE__*/function () {
         case 7:
           return _context5.abrupt("return", PROCESSOR_TYPE_ARM_CM23);
         case 8:
-          return _context5.abrupt("return", PROCESSOR_TYPE_UNDEFINED);
+          return _context5.abrupt("return", PROCESSOR_TYPE_ARM_CM55);
         case 9:
+          return _context5.abrupt("return", PROCESSOR_TYPE_UNDEFINED);
+        case 10:
         case "end":
           return _context5.stop();
       }
@@ -2372,7 +2375,7 @@ var getBaseAddress = /*#__PURE__*/function () {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
           _context6.t0 = proecssorType;
-          _context6.next = _context6.t0 === PROCESSOR_TYPE_ARM_CM0 ? 3 : _context6.t0 === PROCESSOR_TYPE_ARM_CM4 ? 6 : _context6.t0 === PROCESSOR_TYPE_ARM_CM23 ? 8 : 17;
+          _context6.next = _context6.t0 === PROCESSOR_TYPE_ARM_CM0 ? 3 : _context6.t0 === PROCESSOR_TYPE_ARM_CM4 ? 6 : _context6.t0 === PROCESSOR_TYPE_ARM_CM23 ? 8 : _context6.t0 === PROCESSOR_TYPE_ARM_CM55 ? 17 : 19;
           break;
         case 3:
           baseAddr = 0x50000000;
@@ -2381,10 +2384,10 @@ var getBaseAddress = /*#__PURE__*/function () {
               baseAddr = 0x40000000;
             }
           } catch (error) {}
-          return _context6.abrupt("break", 18);
+          return _context6.abrupt("break", 20);
         case 6:
           baseAddr = 0x40000000;
-          return _context6.abrupt("break", 18);
+          return _context6.abrupt("break", 20);
         case 8:
           baseAddr = 0x40000000;
           _context6.prev = 9;
@@ -2401,12 +2404,15 @@ var getBaseAddress = /*#__PURE__*/function () {
           _context6.prev = 14;
           _context6.t1 = _context6["catch"](9);
         case 16:
-          return _context6.abrupt("break", 18);
+          return _context6.abrupt("break", 20);
         case 17:
-          throw 'getBaseAddress() Unsupported processor type!';
-        case 18:
-          return _context6.abrupt("return", baseAddr);
+          baseAddr = 0x40000000;
+          return _context6.abrupt("break", 20);
         case 19:
+          throw 'getBaseAddress() Unsupported processor type!';
+        case 20:
+          return _context6.abrupt("return", baseAddr);
+        case 21:
         case "end":
           return _context6.stop();
       }
