@@ -36,6 +36,9 @@ NUTOOL_CLOCK.g_cfg_chips = [
 	{ name: "NUC131SD2AE", pkg: "LQFP64" },
 	{ name: "NUC131LC2AE", pkg: "LQFP48" },
 	{ name: "NUC131LD2AE", pkg: "LQFP48" },
+    //NUC1311
+    { name: "NUC1311LC2AE", pkg: "LQFP48" },
+    { name: "NUC1311LD2AE", pkg: "LQFP48" },
 	//NUC121AE
 	{ name: "NUC121SC2AE", pkg: "LQFP64" },
 	{ name: "NUC121LC2AE", pkg: "LQFP48" },
@@ -140,10 +143,10 @@ NUTOOL_CLOCK.g_CLKSEL.SPI1_S = ['PLL:0', 'HCLK:1'];
 NUTOOL_CLOCK.g_CLKSEL.SPI2_S = ['PLL:0', 'HCLK:1'];
 NUTOOL_CLOCK.g_CLKSEL.SPI3_S = ['PLL:0', 'HCLK:1'];
 NUTOOL_CLOCK.g_CLKSEL.STCLK_S = ['HXT:0', 'LXT:1', 'HXT/2:2', 'HCLK/2:3', 'HIRC/2:7'];
-NUTOOL_CLOCK.g_CLKSEL.TMR0_S = ['HXT:0', 'LXT:1', 'HCLK:2', 'LIRC:5', 'HIRC:7']; //'external:3'
-NUTOOL_CLOCK.g_CLKSEL.TMR1_S = ['HXT:0', 'LXT:1', 'HCLK:2', 'LIRC:5', 'HIRC:7']; //'external:3'
-NUTOOL_CLOCK.g_CLKSEL.TMR2_S = ['HXT:0', 'LXT:1', 'HCLK:2', 'LIRC:5', 'HIRC:7']; //'external:3'
-NUTOOL_CLOCK.g_CLKSEL.TMR3_S = ['HXT:0', 'LXT:1', 'HCLK:2', 'LIRC:5', 'HIRC:7']; //'external:3'
+NUTOOL_CLOCK.g_CLKSEL.TMR0_S = ['HXT:0', 'LXT:1', 'HCLK:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3'
+NUTOOL_CLOCK.g_CLKSEL.TMR1_S = ['HXT:0', 'LXT:1', 'HCLK:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3'
+NUTOOL_CLOCK.g_CLKSEL.TMR2_S = ['HXT:0', 'LXT:1', 'HCLK:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3'
+NUTOOL_CLOCK.g_CLKSEL.TMR3_S = ['HXT:0', 'LXT:1', 'HCLK:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3'
 NUTOOL_CLOCK.g_CLKSEL.UART_S = ['HXT:0', 'PLL:1', 'HIRC:3'];
 NUTOOL_CLOCK.g_CLKSEL.WDT_S = ['LXT:1', 'HCLK/2048:2', 'LIRC:3'];
 NUTOOL_CLOCK.g_CLKSEL.WWDT_S = ['HCLK/2048:2', 'LIRC:3'];
@@ -208,6 +211,7 @@ NUTOOL_CLOCK.g_unusedModule = {
 };
 
 NUTOOL_CLOCK.g_equivalentName = [];
+NUTOOL_CLOCK.g_equivalentName.EXT = 'EXT_TRG';
 NUTOOL_CLOCK.g_BusNonExistent = [];
 NUTOOL_CLOCK.g_BusFromPCLK1 = [];
 NUTOOL_CLOCK.g_DIV_Module_Defines = ['USB:USB', 'UART:UART'];

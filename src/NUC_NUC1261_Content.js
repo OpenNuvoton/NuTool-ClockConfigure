@@ -36,6 +36,9 @@ NUTOOL_CLOCK.g_cfg_chips = [
 	{ name: "NUC131SD2AE", pkg: "LQFP64" },
 	{ name: "NUC131LC2AE", pkg: "LQFP48" },
 	{ name: "NUC131LD2AE", pkg: "LQFP48" },
+    //NUC1311
+    { name: "NUC1311LC2AE", pkg: "LQFP48" },
+    { name: "NUC1311LD2AE", pkg: "LQFP48" },
 	//NUC121AE
 	{ name: "NUC121SC2AE", pkg: "LQFP64" },
 	{ name: "NUC121LC2AE", pkg: "LQFP48" },
@@ -138,10 +141,10 @@ NUTOOL_CLOCK.g_CLKSEL['RTCSEL/32768'] = ['LXT/32768:0', 'LIRC/32768:1'];
 NUTOOL_CLOCK.g_CLKSEL.SPI0SEL = ['HXT:0', 'PLL:1', 'PCLK0:2', 'HIRC48:3'];
 NUTOOL_CLOCK.g_CLKSEL.SPI1SEL = ['HXT:0', 'PLL:1', 'PCLK0:2', 'HIRC48:3'];
 NUTOOL_CLOCK.g_CLKSEL.STCLKSEL = ['HXT:0', 'LXT:1', 'HXT/2:2', 'HCLK/2:3', 'HIRC/2:7'];
-NUTOOL_CLOCK.g_CLKSEL.TMR0SEL = ['HXT:0', 'LXT:1', 'PCLK0:2', 'LIRC:5', 'HIRC:7']; //'external:3',
-NUTOOL_CLOCK.g_CLKSEL.TMR1SEL = ['HXT:0', 'LXT:1', 'PCLK0:2', 'LIRC:5', 'HIRC:7']; //'external:3',
-NUTOOL_CLOCK.g_CLKSEL.TMR2SEL = ['HXT:0', 'LXT:1', 'PCLK1:2', 'LIRC:5', 'HIRC:7']; //'external:3',
-NUTOOL_CLOCK.g_CLKSEL.TMR3SEL = ['HXT:0', 'LXT:1', 'PCLK1:2', 'LIRC:5', 'HIRC:7']; //'external:3',
+NUTOOL_CLOCK.g_CLKSEL.TMR0SEL = ['HXT:0', 'LXT:1', 'PCLK0:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3',
+NUTOOL_CLOCK.g_CLKSEL.TMR1SEL = ['HXT:0', 'LXT:1', 'PCLK0:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3',
+NUTOOL_CLOCK.g_CLKSEL.TMR2SEL = ['HXT:0', 'LXT:1', 'PCLK1:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3',
+NUTOOL_CLOCK.g_CLKSEL.TMR3SEL = ['HXT:0', 'LXT:1', 'PCLK1:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3',
 NUTOOL_CLOCK.g_CLKSEL.UARTSEL = ['HXT:0', 'PLL:1', 'LXT:2', 'HIRC:3'];
 NUTOOL_CLOCK.g_CLKSEL.USBDSEL = ['HIRC48:0', 'PLL/(USBDIV+1):1'];
 NUTOOL_CLOCK.g_CLKSEL.WDTSEL = ['LXT:1', 'HCLK/2048:2', 'LIRC:3'];
@@ -205,6 +208,7 @@ NUTOOL_CLOCK.g_equivalentName['STCLK_S/SYST_CSR[2]'] = 'STCLKSEL/SYST_CSR[2]';
 NUTOOL_CLOCK.g_equivalentName.HCLK_N = 'HCLKDIV';
 NUTOOL_CLOCK.g_equivalentName.PWRCON = 'PWRCTL';
 NUTOOL_CLOCK.g_equivalentName.PLLCON = 'PLLCTL';
+NUTOOL_CLOCK.g_equivalentName.EXT = 'EXT_TRG';
 
 NUTOOL_CLOCK.g_BusNonExistent = [];
 NUTOOL_CLOCK.g_BusFromPCLK1 = ['USCI1', 'I2C1'];

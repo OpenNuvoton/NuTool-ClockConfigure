@@ -116,10 +116,10 @@ NUTOOL_CLOCK.g_CLKSEL.HCLK_S = ['HXT:0', 'PLL:2', 'LIRC:3', 'HIRC:7'];
 NUTOOL_CLOCK.g_CLKSEL.STCLK_S = ['HXT:0', 'HXT/2:2', 'HCLK/2:3', 'HIRC/2:7'];
 NUTOOL_CLOCK.g_CLKSEL.ADC_S = ['HXT:0', 'PLL:1', 'HCLK:2', 'HIRC:3'];
 NUTOOL_CLOCK.g_CLKSEL.SPI0_S = ['PLL:0', 'HCLK:1'];
-NUTOOL_CLOCK.g_CLKSEL.TMR0_S = ['HXT:0', 'HCLK:2', 'LIRC:5', 'HIRC:7']; //'external:3',
-NUTOOL_CLOCK.g_CLKSEL.TMR1_S = ['HXT:0', 'HCLK:2', 'LIRC:5', 'HIRC:7']; //'external:3',
-NUTOOL_CLOCK.g_CLKSEL.TMR2_S = ['HXT:0', 'HCLK:2', 'LIRC:5', 'HIRC:7']; //'external:3',
-NUTOOL_CLOCK.g_CLKSEL.TMR3_S = ['HXT:0', 'HCLK:2', 'LIRC:5', 'HIRC:7']; //'external:3',
+NUTOOL_CLOCK.g_CLKSEL.TMR0_S = ['HXT:0', 'HCLK:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3',
+NUTOOL_CLOCK.g_CLKSEL.TMR1_S = ['HXT:0', 'HCLK:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3',
+NUTOOL_CLOCK.g_CLKSEL.TMR2_S = ['HXT:0', 'HCLK:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3',
+NUTOOL_CLOCK.g_CLKSEL.TMR3_S = ['HXT:0', 'HCLK:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; //'external:3',
 NUTOOL_CLOCK.g_CLKSEL.UART_S = ['HXT:0', 'PLL:1', 'HIRC:3'];
 NUTOOL_CLOCK.g_CLKSEL.PWM01_S = ['HXT:0', 'LIRC:1', 'HCLK:2', 'HIRC:3'];
 NUTOOL_CLOCK.g_CLKSEL.PWM23_S = ['HXT:0', 'LIRC:1', 'HCLK:2', 'HIRC:3'];
@@ -153,6 +153,12 @@ NUTOOL_CLOCK.g_unusedModule = {
 };
 
 NUTOOL_CLOCK.g_equivalentName = [];
+NUTOOL_CLOCK.g_equivalentName.EXT = {	// for genCode of external clock
+	"TMR0_S": 'T0',
+	"TMR1_S": 'T1',
+	"TMR2_S": 'T2',
+	"TMR3_S": 'T3'
+};
 NUTOOL_CLOCK.g_BusNonExistent = [];
 NUTOOL_CLOCK.g_BusFromPCLK1 = [];
 NUTOOL_CLOCK.g_DIV_Module_Defines = ['USB:USB', 'UART:UART'];
