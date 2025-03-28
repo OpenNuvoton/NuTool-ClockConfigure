@@ -1,30 +1,17 @@
 // chip content
 NUTOOL_CLOCK.g_cfg_chips = [
-    // M460HD
-    //{ name: "M463H3SJHAN", pkg: "LQFP64" },
-    //{ name: "M463H3SIHAN", pkg: "LQFP64" },
-    { name: "M467SJHAE", pkg: "LQFP64" },
-    //{ name: "M463SJHAE", pkg: "LQFP64" },
-    //{ name: "M464SJHAE", pkg: "LQFP64" },
-    //{ name: "M467SIHAE", pkg: "LQFP64" },
-    //{ name: "M463SIHAE", pkg: "LQFP64" },
-    //{ name: "M464SIHAE", pkg: "LQFP64" },
-    //{ name: "M467VJHAE", pkg: "LQFP100" },
-    //{ name: "M467VIHAE", pkg: "LQFP100" },
-    //{ name: "M463H3KJHAN", pkg: "LQFP128" },
-    //{ name: "M463H3KIHAN", pkg: "LQFP128" },
-    { name: "M467KJHAE", pkg: "LQFP128" },
-    //{ name: "M463KJHAE", pkg: "LQFP128" },
-    //{ name: "M464KJHAE", pkg: "LQFP128" },
-    //{ name: "M467KIHAE", pkg: "LQFP128" },
-    //{ name: "M463KIHAE", pkg: "LQFP128" },
-    //{ name: "M464KIHAE", pkg: "LQFP128" },
-    { name: "M467JJHAE", pkg: "LQFP144" },
-    //{ name: "M467JIHAE", pkg: "LQFP144" },
-    //{ name: "M467H3JJHAN", pkg: "LQFP144" },
-    { name: "M467HJHAE", pkg: "LQFP176" },
-    //{ name: "M467HIHAE", pkg: "LQFP176" },
-    //{ name: "M467H3HJHAN", pkg: "LQFP176" },
+    // M460HD - General
+    { name: "M467SJHAN", pkg: "LQFP64" },
+    { name: "M467KJHAN", pkg: "LQFP128" },
+    { name: "M467H3JJHAN", pkg: "LQFP144" },
+    { name: "M467JJHAN", pkg: "LQFP144" },
+    { name: "M467H3HJHAN", pkg: "LQFP176" },
+    { name: "M467HJHAN", pkg: "LQFP176" },
+    // M460HD - EPAD
+    { name: "M467S2JHAE", pkg: "LQFP64" },
+    { name: "M467K2JHAE", pkg: "LQFP128" },
+    { name: "M467J2JHAE", pkg: "LQFP144" },
+    { name: "M467H2JHAE", pkg: "LQFP176" },
     // M460LD
     { name: "M464YGCAE", pkg: "QFN48" },
     { name: "M464LGCAE", pkg: "LQFP48" },
@@ -37,11 +24,14 @@ NUTOOL_CLOCK.g_cfg_chips = [
     { name: "M463AGCAE", pkg: "QFN64" },
     { name: "M463SGCAE", pkg: "LQFP64" },
     { name: "M463KGCAE", pkg: "LQFP128" },
-    //{ name: "M46AYGCAE", pkg: "QFN48" },
-    //{ name: "M46ALGCAE", pkg: "LQFP48" },
-    //{ name: "M46AAGCAE", pkg: "QFN64" },
-    //{ name: "M46ASGCAE", pkg: "LQFP64" },
-    //{ name: "M46AKGCAE", pkg: "LQFP128" }
+    { name: "M460YGCAE", pkg: "QFN48" },
+    { name: "M460LGCAE", pkg: "LQFP48" },
+    { name: "M460AGCAE", pkg: "QFN64" },
+    { name: "M460SGCAE", pkg: "LQFP64" },
+    { name: "M460KGCAE", pkg: "LQFP128" },
+    { name: "M463K2GCAC", pkg: "LQFP128" },
+    { name: "M463S2GCAC", pkg: "LQFP64" },
+    { name: "M463L2GCAC", pkg: "LQFP48" }
 ];
 
 /*
@@ -332,30 +322,18 @@ NUTOOL_CLOCK.g_Module.CLKO_Divider = ['CLKOSEL', 'CLKOCKEN/!DIV1EN/CLKOEN/!CLK1H
 NUTOOL_CLOCK.g_Module.SYSTICK = ['STCLKSEL/SYST_CTRL[2]', 'ENABLE', 'none'];
 
 NUTOOL_CLOCK.g_unusedModule = {
-    "M467SJHAE(LQFP64)": ['UART9', 'HBI'],
-    //"M467KJHAE(LQFP128)": [],
-    //"M467JJHAE(LQFP144)": [],
-    //"M467HJHAE(LQFP176)": [],
-    "M463SJHAE(LQFP64)": ["HBI", "EMAC0", 'UART9', "CRPT"],
-    "M463KJHAE(LQFP128)": ["EMAC0", "CRPT"],
-    "M463H3SJHAN(LQFP64)": ["HBI", "EMAC0", 'UART9', 'USBD', "USBH", "CRPT"],
-    "M463H3KJHAN(LQFP128)": ["HBI", "EMAC0", "CRPT"],
-    "M467H3JJHAN(LQFP144)": ["HBI"],
-    "M467H3HJHAN(LQFP176)": ["HBI"],
-    "M467SIHAE(LQFP64)": ["HBI", 'UART9'],
-    //"M467KIHAE(LQFP128)": [],
-    //"M467JIHAE(LQFP144)": [],
-    //"M467HIHAE(LQFP176)": [],
-    "M463SIHAE(LQFP64)": ["HBI", "EMAC0", 'UART9', "CRPT"],
-    "M463KIHAE(LQFP128)": ["EMAC0", "CRPT"],
-    //"M467VJHAE(LQFP100)": [],
-    "M464SJHAE(LQFP64)": ["CANFD0", "CANFD1", "CANFD2", "CANFD3", "HBI", "EMAC0", 'UART9', "CRPT"],
-    "M464KJHAE(LQFP128)": ["CANFD0", "CANFD1", "CANFD2", "CANFD3", "EMAC0", "CRPT"],
-    //"M467VIHAE(LQFP100)": [],
-    "M464SIHAE(LQFP64)": ["CANFD0", "CANFD1", "CANFD2", "CANFD3", "HBI", "EMAC0", 'UART9', "CRPT"],
-    "M464KIHAE(LQFP128)": ["CANFD0", "CANFD1", "CANFD2", "CANFD3", "EMAC0", "CRPT"],
-    "M463H3SIHAN(LQFP64)": ["HBI", "EMAC0", 'UART9', 'USBD', "USBH", "CRPT"],
-    "M463H3KIHAN(LQFP128)": ["HBI", "EMAC0", "CRPT"]
+    // M460HD - General
+    "M467SJHAN(LQFP64)": ['UART9', 'HBI'],
+    "M467KJHAN(LQFP128)": [],
+    "M467H3JJHAN(LQFP144)": ['HBI'],
+    "M467JJHAN(LQFP144)": [],
+    "M467H3HJHAN(LQFP176)": ['HBI'],
+    "M467HJHAN(LQFP176)": [],
+    // M460HD - EPAD
+    "M467S2JHAE(LQFP64)": ['UART9', 'HBI'],
+    "M467K2JHAE(LQFP128)": [],
+    "M467J2JHAE(LQFP144)": [],
+    "M467H2JHAE(LQFP176)": []
 };
 
 NUTOOL_CLOCK.g_equivalentName = [];

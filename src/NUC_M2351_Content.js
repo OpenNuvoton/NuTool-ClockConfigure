@@ -4,10 +4,7 @@ NUTOOL_CLOCK.g_cfg_chips = [
 	{ name: "M2351ZIAAE", pkg: "QFN33" },
 	{ name: "M2351SIAAE", pkg: "LQFP64" },
 	{ name: "M2351KIAAE", pkg: "LQFP128" },
-	// M2354
-	{ name: "M2354LJFAE", pkg: "LQFP48" },
-	{ name: "M2354SJFAE", pkg: "LQFP64" },
-	{ name: "M2354KJFAE", pkg: "LQFP128" }
+	{ name: "M2351CIAAE", pkg: "WLCSP49" }
 ];
 
 NUTOOL_CLOCK.g_register_map = [];
@@ -163,7 +160,8 @@ NUTOOL_CLOCK.g_Module.SYSTICK = ['STCLKSEL/SYST_CTRL[2]', 'ENABLE', 'none'];
 
 NUTOOL_CLOCK.g_unusedModule = {
 	"M2351ZIAAE": ["SPI3", "QEI0", "ECAP0", "ECAP1", "EBI"],
-	"M2351SIAAE": ["ECAP1"]
+	"M2351SIAAE": ["ECAP1"],
+	"M2351CIAAE": ["ECAP1", "SPI3"]
 };
 
 NUTOOL_CLOCK.g_equivalentName = [];

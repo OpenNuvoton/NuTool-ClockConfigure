@@ -16,6 +16,9 @@ NUTOOL_CLOCK.g_cfg_chips = [
 	{ name: "M452LG6AE", pkg: "LQFP48" },
 	{ name: "M452LE6AE", pkg: "LQFP48" },
 
+	{ name: "M452VG6AE", pkg: "LQFP100" },
+	{ name: "M452VE6AE", pkg: "LQFP100" },
+
 	//{ name: "M4LEDRG6AE", pkg: "LQFP64" },
 	//{ name: "M4LEDRE6AE", pkg: "LQFP64" },
 
@@ -193,6 +196,8 @@ NUTOOL_CLOCK.g_unusedModule = {
 	"M452LD3AE": ["SPI2", "CAN0"],
 	"M452LC3AE": ["SPI2", "CAN0"],
 	"M452RD3AE": ["SPI2", "CAN0"],
+	"M452VG6AE": ["CAN0"],
+	"M452VE6AE": ["CAN0"],
 
 	"M453LG6AE": ["UART3"],
 	"M453LE6AE": ["UART3"],

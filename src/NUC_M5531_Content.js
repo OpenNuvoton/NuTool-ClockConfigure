@@ -1,11 +1,7 @@
 NUTOOL_CLOCK.g_cfg_chips = [
-    { name: "M55M1R2LJAE", pkg: "LQFP64" },
-    { name: "M55M1H3R2LJAE", pkg: "LQFP64" },
-    { name: "M55M1K2LJAE", pkg: "LQFP128" },
-    { name: "M55M1H3K2LJAE", pkg: "LQFP128" },
-    { name: "M55M1H2LJAE", pkg: "LQFP176" },
-    { name: "M55M1H3H2LJAE", pkg: "LQFP176" },
-    { name: "M55M1H2ES", pkg: "LQFP176" }
+    { name: "M5531R2LJAE", pkg: "LQFP64" },
+    { name: "M5531K2LJAE", pkg: "LQFP128" },
+    { name: "M5531H2LJAE", pkg: "LQFP176" }
 ];
 
 NUTOOL_CLOCK.g_register_map = []
@@ -52,7 +48,6 @@ NUTOOL_CLOCK.g_register_map.LPSPICTL = ['LPSPI0CKEN:0'];
 NUTOOL_CLOCK.g_register_map.LPSRAMCTL = ['LPSRAM0CKEN:0'];
 NUTOOL_CLOCK.g_register_map.LPTMRCTL = ['LPTMR1CKEN:1', 'LPTMR0CKEN:0'];
 NUTOOL_CLOCK.g_register_map.LPUARTCTL = ['LPUART0CKEN:0'];
-NUTOOL_CLOCK.g_register_map.NPUCTL = ['NPU0CKEN:0'];
 NUTOOL_CLOCK.g_register_map.OTFCCTL = ['OTFC0CKEN:0'];
 NUTOOL_CLOCK.g_register_map.OTGCTL = ['OTG0CKEN:0'];
 NUTOOL_CLOCK.g_register_map.PDMACTL = ['PDMA1CKEN:1', 'PDMA0CKEN:0'];
@@ -170,7 +165,6 @@ NUTOOL_CLOCK.g_register_map_default.LPSPICTL    = '0x00000000';
 NUTOOL_CLOCK.g_register_map_default.LPSRAMCTL   = '0x00000000';
 NUTOOL_CLOCK.g_register_map_default.LPTMRCTL    = '0x00000000';
 NUTOOL_CLOCK.g_register_map_default.LPUARTCTL   = '0x00000000';
-NUTOOL_CLOCK.g_register_map_default.NPUCTL      = '0x00000000';
 NUTOOL_CLOCK.g_register_map_default.OTFCCTL     = '0x00000000';
 NUTOOL_CLOCK.g_register_map_default.OTGCTL      = '0x00000000';
 NUTOOL_CLOCK.g_register_map_default.PDMACTL     = '0x00000000';
@@ -288,7 +282,6 @@ NUTOOL_CLOCK.g_register_map_description.LPSPICTL = '0x4000127C';
 NUTOOL_CLOCK.g_register_map_description.LPSRAMCTL = '0x40001280';
 NUTOOL_CLOCK.g_register_map_description.LPTMRCTL = '0x40001284';
 NUTOOL_CLOCK.g_register_map_description.LPUARTCTL = '0x40001288';
-NUTOOL_CLOCK.g_register_map_description.NPUCTL = '0x4000128C';
 NUTOOL_CLOCK.g_register_map_description.OTFCCTL = '0x40001294';
 NUTOOL_CLOCK.g_register_map_description.OTGCTL = '0x40001298';
 NUTOOL_CLOCK.g_register_map_description.PDMACTL = '0x4000129C';
@@ -489,7 +482,6 @@ NUTOOL_CLOCK.g_Module.LPSRAM0 = ['HCLK2', 'LPSRAM0CKEN', 'none'];
 NUTOOL_CLOCK.g_Module.LPTMR0 = ['LPTMR0SEL', 'LPTMR0CKEN', 'none'];
 NUTOOL_CLOCK.g_Module.LPTMR1 = ['LPTMR1SEL', 'LPTMR1CKEN', 'none'];
 NUTOOL_CLOCK.g_Module.LPUART0 = ['LPUART0SEL', 'LPUART0CKEN', 'LPUART0DIV'];
-NUTOOL_CLOCK.g_Module.NPU0 = ['ACLK', 'NPU0CKEN', 'none'];
 NUTOOL_CLOCK.g_Module.OTFC0 = ['HCLK1', 'OTFC0CKEN', 'none'];
 NUTOOL_CLOCK.g_Module.OTG0 = ['USBSEL', 'OTG0CKEN', 'USBDIV'];
 NUTOOL_CLOCK.g_Module.PDMA0 = ['HCLK0', 'PDMA0CKEN', 'none'];
@@ -545,13 +537,9 @@ NUTOOL_CLOCK.g_Module.CLKO_Divider = ['CLKOSEL', 'CLKOEN/!DIV1EN/!CLK1HZEN', 'FR
 NUTOOL_CLOCK.g_Module.SYSTICK = ['ST0SEL/SYST_CTRL[2]', 'ENABLE', 'ST0DIV'];
 
 NUTOOL_CLOCK.g_unusedModule = {
-    'M55M1R2LJAE(LQFP64)': ['ECAP1', 'ECAP2', 'ECAP3', 'SPIM0', 'QSPI1', 'I2C3', 'EBI0', 'USB 1.1', 'UTCPD0'],
-    'M55M1H3R2LJAE(LQFP64)': ['ECAP1', 'ECAP2', 'ECAP3', 'SPIM0', 'QSPI1', 'I2C3', 'EBI0', 'USB 1.1', 'UTCPD0'],
-    'M55M1K2LJAE(LQFP128)': ['ECAP3', 'EBI0', 'UTCPD0'],
-    'M55M1H3K2LJAE(LQFP128)': ['SPIM0'],
-    'M55M1H2LJAE(LQFP176)': [],
-    'M55M1H3H2LJAE(LQFP176)': ['SPIM0'],
-    'M55M1H2ES(LQFP176)': []
+    'M5531R2LJAE(LQFP64)': ['ECAP1', 'ECAP2', 'ECAP3', 'SPIM0', 'QSPI1', 'I2C3', 'EBI0', 'USB 1.1', 'UTCPD0'],
+    'M5531K2LJAE(LQFP128)': ['ECAP3', 'EBI0', 'USB 1.1', 'UTCPD0'],
+    'M5531H2LJAE(LQFP176)': []
 };
 
 // HCLKs, PCLKs
@@ -611,7 +599,7 @@ NUTOOL_CLOCK.g_equivalentName.HIRC48EN = 'HIRC48MEN';
 NUTOOL_CLOCK.g_equivalentName.RTC = 'RTC0';
 
 NUTOOL_CLOCK.g_BusNonExistent = ['ST0'];
-NUTOOL_CLOCK.g_BusFromACLK = ['CPUCLK', 'FMC0', 'ISP0', 'GDMA0', 'NPU0', 'SRAM0', 'SRAM1', 'SRAM2'];
+NUTOOL_CLOCK.g_BusFromACLK = ['CPUCLK', 'FMC0', 'ISP0', 'GDMA0', 'SRAM0', 'SRAM1', 'SRAM2'];
 NUTOOL_CLOCK.g_BusFromHCLK0 = ['CANFD0', 'CANFD1', 'CRC0', 'CRYPTO0', 'EBI0', 'EMAC0', 'ETMC0',
                 'GPIOA', 'GPIOB', 'GPIOC', 'GPIOD', 'GPIOE', 'GPIOF', 'GPIOG', 'GPIOH', 'GPIOI', 'GPIOJ', 
                 'KDF0', 'KS0', 'PDMA0', 'PDMA1', 'SDH0', 'SDH1', 'SRAM3', 'USBH0', 'USBH1', 'HSUSBD0', 'HSUSBH0'];
