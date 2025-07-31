@@ -5,6 +5,7 @@ const webusb = require('usb').webusb;
 const DAPjs = require('dapjs');
 const PROCESSOR_TYPE_ARM_CM0 = 'PROCESSOR_TYPE_ARM_CM0';
 const PROCESSOR_TYPE_ARM_CM4 = 'PROCESSOR_TYPE_ARM_CM4';
+const PROCESSOR_TYPE_ARM_CM55 = 'PROCESSOR_TYPE_ARM_CM55';
 const PROCESSOR_TYPE_ARM_CM23 = 'PROCESSOR_TYPE_ARM_CM23'
 const PROCESSOR_TYPE_UNDEFINED = 'PROCESSOR_TYPE_UNDEFINED';
 
@@ -184,6 +185,8 @@ const getProecssorType = async () => {
             return PROCESSOR_TYPE_ARM_CM4;
         case 'D20':
             return PROCESSOR_TYPE_ARM_CM23;
+        case 'D22':
+            return PROCESSOR_TYPE_ARM_CM55;
     }
 
     return PROCESSOR_TYPE_UNDEFINED;
@@ -216,6 +219,9 @@ const getBaseAddress = async (proecssorType) => {
             }
             catch (error) {
             }
+            break;
+        case PROCESSOR_TYPE_ARM_CM55:
+            baseAddr = 0x40000000;
             break;
         default:
             throw ('getBaseAddress() Unsupported processor type!')
@@ -289,6 +295,20 @@ function createWindow() {
         ipcMain.on('connectComplete', async (event, arg) => {
             console.log('ipcMain: connectComplete');
             await disconnect();
+        });
+        ipcMain.on('zoomIn', async (event, arg) => {
+            console.log('ipcMain: zoomIn');
+            const currentZoom = mainWindow.webContents.getZoomFactor();
+            mainWindow.webContents.setZoomFactor(currentZoom + 0.05);
+        });
+        ipcMain.on('zoomOut', async (event, arg) => {
+            console.log('ipcMain: zoomOut');
+            const currentZoom = mainWindow.webContents.getZoomFactor();
+            mainWindow.webContents.setZoomFactor(currentZoom - 0.05);
+        });
+        ipcMain.on('bestFit', async (event, arg) => {
+            console.log('ipcMain: bestFit');
+            mainWindow.webContents.setZoomFactor(1.0);
         });
     });
 

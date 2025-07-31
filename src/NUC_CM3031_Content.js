@@ -1,0 +1,320 @@
+NUTOOL_CLOCK.g_cfg_chips = [
+    // Ix
+    // { name: "M3331KIGAE", pkg: "LQFP128" },
+    { name: "CM3031HS8AE", pkg: "LQFP128" },
+    // { name: "M3331LIGAE", pkg: "LQFP48" },
+    { name: "CM3031HL8AE", pkg: "LQFP48" },
+    // { name: "M3331SIGAE", pkg: "LQFP64" },
+    { name: "CM3031HN8AE", pkg: "LQFP64" },
+    // { name: "M3331TIGAE", pkg: "QFN33" },
+    { name: "CM3031HJ3AE", pkg: "QFN33" },
+    // { name: "M3333KIGAE", pkg: "LQFP128" },
+    { name: "CM3033HS8AE", pkg: "LQFP128" },
+    // { name: "M3333LIGAE", pkg: "LQFP48" },
+    { name: "CM3033HL8AE", pkg: "LQFP48" },
+    // { name: "M3333SIGAE", pkg: "LQFP64" },
+    { name: "CM3033HN8AE", pkg: "LQFP64" },
+    // { name: "M3334KIGAE", pkg: "LQFP128" },
+    { name: "CM3034HS8AE", pkg: "LQFP128" },
+    // { name: "M3334LIGAE", pkg: "LQFP48" },
+    { name: "CM3034HL8AE", pkg: "LQFP48" },
+    // { name: "M3334SIGAE", pkg: "LQFP64" },
+    { name: "CM3034HN8AE", pkg: "LQFP64" },
+    // { name: "M3334TIGAE", pkg: "QFN33" },
+    { name: "CM3034HJ3AE", pkg: "QFN33" },
+    // { name: "M3331KGGAE", pkg: "LQFP128" },
+    { name: "CM3031GS8AE", pkg: "LQFP128" },
+    // { name: "M3331LGGAE", pkg: "LQFP48" },
+    { name: "CM3031GL8AE", pkg: "LQFP48" },
+    // { name: "M3331SGGAE", pkg: "LQFP64" },
+    { name: "CM3031GN8AE", pkg: "LQFP64" },
+    // { name: "M3331TGGAE", pkg: "QFN33" },
+    { name: "CM3031GJ3AE", pkg: "QFN33" },
+    // { name: "M3333KGGAE", pkg: "LQFP128" },
+    { name: "CM3033GS8AE", pkg: "LQFP128" },
+    // { name: "M3333LGGAE", pkg: "LQFP48" },
+    { name: "CM3033GL8AE", pkg: "LQFP48" },
+    // { name: "M3333SGGAE", pkg: "LQFP64" },
+    { name: "CM3033GN8AE", pkg: "LQFP64" },
+    // { name: "M3334KGGAE", pkg: "LQFP128" },
+    { name: "CM3034GS8AE", pkg: "LQFP128" },
+    // { name: "M3334LGGAE", pkg: "LQFP48" },
+    { name: "CM3034GL8AE", pkg: "LQFP48" },
+    // { name: "M3334SGGAE", pkg: "LQFP64" },
+    { name: "CM3034GN8AE", pkg: "LQFP64" },
+    // { name: "M3334TGGAE", pkg: "QFN33" },
+    { name: "CM3034GJ3AE", pkg: "QFN33" },
+    // Gx
+    // { name: "M3331SGAAE", pkg: "LQFP64" },
+    // { name: "CM3021GN8AE", pkg: "LQFP64" },
+    // { name: "M3331TGAAE", pkg: "QFN33" },
+    // { name: "CM3021GJ3AE", pkg: "QFN33" },
+    // { name: "M3331LGAAE", pkg: "LQFP48" },
+    // { name: "CM3021GL8AE", pkg: "LQFP48" },
+    // { name: "M3334SGAAE", pkg: "LQFP64" },
+    // { name: "CM3024GN8AE", pkg: "LQFP64" },
+    // { name: "M3334TGAAE", pkg: "QFN33" },
+    // { name: "CM3024GJ3AE", pkg: "QFN33" },
+    // { name: "M3334LGAAE", pkg: "LQFP48" },
+    // { name: "CM3024GL8AE", pkg: "LQFP48" }
+];
+
+NUTOOL_CLOCK.g_register_map = [];
+NUTOOL_CLOCK.g_register_map.PWRCTL = ['HXTMD:31', 'HXTGAIN:22-20', 'HIRCSTBS:17-16', 'HXTSELTYP:12', 'PDEN:7', 'PDWKIF:6', 'PDWKIEN:5', 'PDWKDLY:4', 'LIRCEN:3', 'HIRCEN:2', 'LXTEN:1', 'HXTEN:0'];
+NUTOOL_CLOCK.g_register_map.AHBCLK0 = ['GPHCKEN:31', 'GPGCKEN:30', 'GPFCKEN:29', 'GPECKEN:28', 'GPDCKEN:27', 'GPCCKEN:26', 'GPBCKEN:25', 'GPACKEN:24', 'TRACECKEN:19', 'CANRAM1EN:18', 'CANRAM0EN:17', 'USBHCKEN:16', 'FMCIDLE:15', 'SPBCKEN:11', 'HSUSBDCKEN:10', 'CANFD1CKEN:9', 'CANFD0CKEN:8', 'CRCCKEN:7', 'SDH0CKEN:6', 'PDMA1CKEN:5', 'STCKEN:4', 'EBICKEN:3', 'ISPCKEN:2', 'PDMA0CKEN:1'];
+NUTOOL_CLOCK.g_register_map.APBCLK0 = ['WDT1CKEN:31', 'HSOTGCKEN:30', 'I2S0CKEN:29', 'EADC0CKEN:28', 'WWDT1CKEN:25', 'WWDT0CKEN:24', 'UART4CKEN:20', 'UART3CKEN:19', 'UART2CKEN:18', 'UART1CKEN:17', 'UART0CKEN:16', 'SPI2CKEN:15', 'SPI1CKEN:14', 'SPI0CKEN:13', 'QSPI0CKEN:12', 'I3C0CKEN:11', 'I2C2CKEN:10', 'I2C1CKEN:9', 'I2C0CKEN:8', 'ACMP01CKEN:7', 'CLKOCKEN:6', 'TMR3CKEN:5', 'TMR2CKEN:4', 'TMR1CKEN:3', 'TMR0CKEN:2', 'RTCCKEN:1', 'WDT0CKEN:0'];
+NUTOOL_CLOCK.g_register_map.APBCLK1 = ['BPWM5CKEN:31', 'BPWM4CKEN:30', 'BPWM3CKEN:29', 'BPWM2CKEN:28', 'ECAP0CKEN:26', 'EQEI0CKEN:20', 'BPWM1CKEN:19', 'BPWM0CKEN:18', 'EPWM1CKEN:17', 'EPWM0CKEN:16', 'USCI1CKEN:9', 'USCI0CKEN:8'];
+NUTOOL_CLOCK.g_register_map.CLKSEL0 = ['CANFD1SEL:27-26', 'CANFD0SEL:25-24', 'SDH0SEL:21-20', 'EADC0SEL:10', 'STCLKSEL:5-3', 'HCLKSEL:2-0'];
+NUTOOL_CLOCK.g_register_map.CLKSEL1 = ['WWDT1SEL:31-30', 'WWDT0SEL:29-28', 'UART1SEL:27-26', 'UART0SEL:25-24', 'TMR3SEL:22-20', 'TMR2SEL:18-16', 'TMR1SEL:14-12', 'TMR0SEL:10-8', 'CLKOSEL:6-4', 'WDT1SEL:3-2', 'WDT0SEL:1-0'];
+NUTOOL_CLOCK.g_register_map.CLKSEL2 = ['BPWM5SEL:19', 'BPWM4SEL:18', 'BPWM3SEL:17', 'BPWM2SEL:16', 'SPI2SEL:13-12', 'BPWM1SEL:9', 'BPWM0SEL:8', 'SPI1SEL:7-6', 'SPI0SEL:5-4', 'QSPI0SEL:3-2', 'EPWM1SEL:1', 'EPWM0SEL:0'];
+NUTOOL_CLOCK.g_register_map.CLKSEL3 = ['UART4SEL:29-28', 'UART3SEL:27-26', 'UART2SEL:25-24', 'I3C0SEL:19-18', 'I2S0SEL:17-16'];
+NUTOOL_CLOCK.g_register_map.CLKDIV0 = ['SDH0DIV:31-24', 'EADC0DIV:23-16', 'UART1DIV:15-12', 'UART0DIV:11-8', 'HCLKDIV:3-0'];
+NUTOOL_CLOCK.g_register_map.CLKDIV1 = ['CANFD1DIV:23-20', 'CANFD0DIV:19-16', 'I2S0DIV:15-12', 'UART4DIV:11-8', 'UART3DIV:7-4', 'UART2DIV:3-0'];
+NUTOOL_CLOCK.g_register_map.PCLKDIV = ['APB1DIV:6-4', 'APB0DIV:2-0'];
+NUTOOL_CLOCK.g_register_map.APBCLK2 = ['ELLSI0CKEN:10', 'LLSI9CKEN:9', 'LLSI8CKEN:8', 'LLSI7CKEN:7', 'LLSI6CKEN:6', 'LLSI5CKEN:5', 'LLSI4CKEN:4', 'LLSI3CKEN:3', 'LLSI2CKEN:2', 'LLSI1CKEN:1', 'LLSI0CKEN:0'];
+NUTOOL_CLOCK.g_register_map.PLLCTL = ['STBSEL:23', 'PLL_SRC:19', 'OE:18', 'BP:17', 'PD:16', 'OUTDIV:15-14', 'INDIV:13-9', 'FBDIV:8-0'];
+NUTOOL_CLOCK.g_register_map.CLKOCTL = ['CLK1HZEN:6', 'DIV1EN:5', 'CLKOEN:4', 'FREQSEL:3-0'];
+NUTOOL_CLOCK.g_register_map.SYST_CTRL = ['COUNTFLAG:16', 'CLKSRC:2', 'TICKINT:1', 'ENABLE:0'];
+NUTOOL_CLOCK.g_register_map.RTC_LXTCTL = ['RTCCKSEL:7', 'RTCSEL/32768:7'];
+
+NUTOOL_CLOCK.g_register_map_default = [];
+NUTOOL_CLOCK.g_register_map_default.PWRCTL = '0x0000101C';
+NUTOOL_CLOCK.g_register_map_default.AHBCLK0 = '0x00008004';
+NUTOOL_CLOCK.g_register_map_default.APBCLK0 = '0x80000001';
+NUTOOL_CLOCK.g_register_map_default.APBCLK1 = '0x00000000';
+NUTOOL_CLOCK.g_register_map_default.CLKSEL0 = '0x0F30003F';
+NUTOOL_CLOCK.g_register_map_default.CLKSEL1 = '0xAF77772F';
+NUTOOL_CLOCK.g_register_map_default.CLKSEL2 = '0x000F23AB';
+NUTOOL_CLOCK.g_register_map_default.CLKSEL3 = '0x3F0A0000';
+NUTOOL_CLOCK.g_register_map_default.CLKDIV0 = '0x00000003';
+NUTOOL_CLOCK.g_register_map_default.CLKDIV1 = '0x00000000';
+NUTOOL_CLOCK.g_register_map_default.PCLKDIV = '0x00000000';
+NUTOOL_CLOCK.g_register_map_default.APBCLK2 = '0x00000000';
+NUTOOL_CLOCK.g_register_map_default.PLLCTL = '0x00094426';
+NUTOOL_CLOCK.g_register_map_default.CLKOCTL = '0x00000000';
+NUTOOL_CLOCK.g_register_map_default.SYST_CTRL = '0x00000000';
+NUTOOL_CLOCK.g_register_map_default.RTC_LXTCTL = '0x00000006';
+
+NUTOOL_CLOCK.g_register_map_description = [];
+NUTOOL_CLOCK.g_register_map_description.PWRCTL = '0x40000200';
+NUTOOL_CLOCK.g_register_map_description.AHBCLK0 = '0x40000204';
+NUTOOL_CLOCK.g_register_map_description.APBCLK0 = '0x40000208';
+NUTOOL_CLOCK.g_register_map_description.APBCLK1 = '0x4000020C';
+NUTOOL_CLOCK.g_register_map_description.CLKSEL0 = '0x40000210';
+NUTOOL_CLOCK.g_register_map_description.CLKSEL1 = '0x40000214';
+NUTOOL_CLOCK.g_register_map_description.CLKSEL2 = '0x40000218';
+NUTOOL_CLOCK.g_register_map_description.CLKSEL3 = '0x4000021C';
+NUTOOL_CLOCK.g_register_map_description.CLKDIV0 = '0x40000220';
+NUTOOL_CLOCK.g_register_map_description.CLKDIV1 = '0x40000224';
+NUTOOL_CLOCK.g_register_map_description.PCLKDIV = '0x40000234';
+NUTOOL_CLOCK.g_register_map_description.APBCLK2 = '0x40000238';
+NUTOOL_CLOCK.g_register_map_description.PLLCTL = '0x40000240';
+NUTOOL_CLOCK.g_register_map_description.CLKOCTL = '0x40000260';
+NUTOOL_CLOCK.g_register_map_description.SYST_CTRL = '0xE000E010';
+NUTOOL_CLOCK.g_register_map_description.RTC_LXTCTL = '0x40041100';
+
+NUTOOL_CLOCK.g_CLKSEL = [];
+NUTOOL_CLOCK.g_CLKSEL.APB1DIV = ['HCLK:0', 'HCLK/2:1', 'HCLK/4:2', 'HCLK/8:3'];
+NUTOOL_CLOCK.g_CLKSEL.APB0DIV = ['HCLK:0', 'HCLK/2:1', 'HCLK/4:2', 'HCLK/8:3'];
+NUTOOL_CLOCK.g_CLKSEL.CANFD1SEL = ['HXT:0', 'PLL/2:1', 'HCLK:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.CANFD0SEL = ['HXT:0', 'PLL/2:1', 'HCLK:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.SDH0SEL = ['HXT:0', 'PLL/2:1', 'HCLK:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.EADC0SEL = ['HCLK:1', 'PLL/2:0'];
+NUTOOL_CLOCK.g_CLKSEL.STCLKSEL = ['HXT:0', 'LXT:1', 'HXT/2:2', 'HCLK/2:3', 'HIRC/2:7'];
+NUTOOL_CLOCK.g_CLKSEL.HCLKSEL = ['HXT:0', 'LXT:1', 'PLL:2', 'LIRC:3', 'HIRC:7'];
+NUTOOL_CLOCK.g_CLKSEL.WWDT1SEL = ['HCLK/2048:2', 'LIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.WWDT0SEL = ['HCLK/2048:2', 'LIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.UART1SEL = ['HXT:0', 'PLL/2:1', 'LXT:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.UART0SEL = ['HXT:0', 'PLL/2:1', 'LXT:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.TMR3SEL = ['HXT:0', 'LXT:1', 'PCLK1:2', 'EXT:3', 'LIRC:4', 'HIRC:7']; // 'external:3'
+NUTOOL_CLOCK.g_CLKSEL.TMR2SEL = ['HXT:0', 'LXT:1', 'PCLK1:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; // 'external:3'
+NUTOOL_CLOCK.g_CLKSEL.TMR1SEL = ['HXT:0', 'LXT:1', 'PCLK0:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; // 'external:3'
+NUTOOL_CLOCK.g_CLKSEL.TMR0SEL = ['HXT:0', 'LXT:1', 'PCLK0:2', 'EXT:3', 'LIRC:5', 'HIRC:7']; // 'external:3'
+NUTOOL_CLOCK.g_CLKSEL.CLKOSEL = ['HXT:0', 'LXT:1', 'HCLK:2', 'HIRC:3', 'LIRC:4', 'PLL/2:5'];
+NUTOOL_CLOCK.g_CLKSEL.WDT1SEL = ['LXT:1', 'HCLK/2048:2', 'LIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.WDT0SEL = ['LXT:1', 'HCLK/2048:2', 'LIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.BPWM5SEL = ['HCLK:0', 'PCLK1:1'];
+NUTOOL_CLOCK.g_CLKSEL.BPWM4SEL = ['HCLK:0', 'PCLK0:1'];
+NUTOOL_CLOCK.g_CLKSEL.BPWM3SEL = ['HCLK:0', 'PCLK1:1'];
+NUTOOL_CLOCK.g_CLKSEL.BPWM2SEL = ['HCLK:0', 'PCLK0:1'];
+NUTOOL_CLOCK.g_CLKSEL.SPI2SEL = ['HXT:0', 'PLL/2:1', 'PCLK1:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.BPWM1SEL = ['HCLK:0', 'PCLK1:1'];
+NUTOOL_CLOCK.g_CLKSEL.BPWM0SEL = ['HCLK:0', 'PCLK0:1'];
+NUTOOL_CLOCK.g_CLKSEL.SPI1SEL = ['HXT:0', 'PLL/2:1', 'PCLK0:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.SPI0SEL = ['HXT:0', 'PLL/2:1', 'PCLK1:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.QSPI0SEL = ['HXT:0', 'PLL/2:1', 'PCLK0:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.EPWM1SEL = ['HCLK:0', 'PCLK1:1'];
+NUTOOL_CLOCK.g_CLKSEL.EPWM0SEL = ['HCLK:0', 'PCLK0:1'];
+NUTOOL_CLOCK.g_CLKSEL.UART4SEL = ['HXT:0', 'PLL/2:1', 'LXT:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.UART3SEL = ['HXT:0', 'PLL/2:1', 'LXT:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.UART2SEL = ['HXT:0', 'PLL/2:1', 'LXT:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.I3C0SEL = ['HXT:0', 'HCLK:1', 'PCLK0:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.I2S0SEL = ['HXT:0', 'PLL/2:1', 'PCLK0:2', 'HIRC:3'];
+NUTOOL_CLOCK.g_CLKSEL.RTCCKSEL = ['LXT:0', 'LIRC:1'];
+NUTOOL_CLOCK.g_CLKSEL['RTCCKSEL/32768'] = ['LXT/32768:0', 'LIRC/32768:1'];
+
+NUTOOL_CLOCK.g_CLKSEL_EXTENDED = [];
+
+NUTOOL_CLOCK.g_Module = [];
+NUTOOL_CLOCK.g_Module.ACMP01 = ['PCLK1', 'ACMP01CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.BPWM0 = ['BPWM0SEL', 'BPWM0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.BPWM1 = ['BPWM1SEL', 'BPWM1CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.BPWM2 = ['BPWM2SEL', 'BPWM2CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.BPWM3 = ['BPWM3SEL', 'BPWM3CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.BPWM4 = ['BPWM4SEL', 'BPWM4CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.BPWM5 = ['BPWM5SEL', 'BPWM5CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.CANFD0 = ['CANFD0SEL', 'CANFD0CKEN', 'CANFD0DIV'];
+NUTOOL_CLOCK.g_Module.CANFD1 = ['CANFD1SEL', 'CANFD1CKEN', 'CANFD1DIV'];
+NUTOOL_CLOCK.g_Module.CANRAM0 = ['HCLK', 'CANRAM0EN', 'none'];
+NUTOOL_CLOCK.g_Module.CANRAM1 = ['HCLK', 'CANRAM1EN', 'none'];
+NUTOOL_CLOCK.g_Module.CRC = ['HCLK', 'CRCCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.EADC0 = ['EADC0SEL', 'EADC0CKEN', 'EADC0DIV'];
+NUTOOL_CLOCK.g_Module.EBI = ['HCLK', 'EBICKEN', 'none'];
+NUTOOL_CLOCK.g_Module.ECAP0 = ['PCLK0', 'ECAP0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.ELLSI0 = ['PCLK0', 'ELLSI0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.EPWM0 = ['EPWM0SEL', 'EPWM0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.EPWM1 = ['EPWM1SEL', 'EPWM1CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.EQEI0 = ['PCLK0', 'EQEI0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.FMCIDLE = ['HCLK', 'FMCIDLE', 'none'];
+NUTOOL_CLOCK.g_Module.GPA = ['HCLK', 'GPACKEN', 'none'];
+NUTOOL_CLOCK.g_Module.GPB = ['HCLK', 'GPBCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.GPC = ['HCLK', 'GPCCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.GPD = ['HCLK', 'GPDCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.GPE = ['HCLK', 'GPECKEN', 'none'];
+NUTOOL_CLOCK.g_Module.GPF = ['HCLK', 'GPFCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.GPG = ['HCLK', 'GPGCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.GPH = ['HCLK', 'GPHCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.HSOTG = ['HSUSB_OTG_PHY', 'HSOTGCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.HSUSBD = ['HSUSB_OTG_PHY', 'HSUSBDCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.HSUSBH = ['HSUSB_OTG_PHY', 'USBHCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.I2C0 = ['PCLK0', 'I2C0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.I2C1 = ['PCLK1', 'I2C1CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.I2C2 = ['PCLK0', 'I2C2CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.I2S0 = ['I2S0SEL', 'I2S0CKEN', 'I2S0DIV'];
+NUTOOL_CLOCK.g_Module.I3C0 = ['I3C0SEL', 'I3C0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.ISP = ['HCLK', 'ISPCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.LLSI0 = ['PCLK0', 'LLSI0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.LLSI1 = ['PCLK1', 'LLSI1CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.LLSI2 = ['PCLK0', 'LLSI2CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.LLSI3 = ['PCLK1', 'LLSI3CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.LLSI4 = ['PCLK0', 'LLSI4CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.LLSI5 = ['PCLK1', 'LLSI5CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.LLSI6 = ['PCLK0', 'LLSI6CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.LLSI7 = ['PCLK1', 'LLSI7CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.LLSI8 = ['PCLK0', 'LLSI8CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.LLSI9 = ['PCLK1', 'LLSI9CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.PDMA0 = ['HCLK', 'PDMA0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.PDMA1 = ['HCLK', 'PDMA1CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.QSPI0 = ['QSPI0SEL', 'QSPI0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.RTC = ['RTCCKSEL', 'RTCCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.SDH0 = ['SDH0SEL', 'SDH0CKEN', 'SDH0DIV'];
+NUTOOL_CLOCK.g_Module.SPB = ['HCLK', 'SPBCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.SPI0 = ['SPI0SEL', 'SPI0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.SPI1 = ['SPI1SEL', 'SPI1CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.SPI2 = ['SPI2SEL', 'SPI2CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.ST = ['HCLK', 'STCKEN', 'none'];
+NUTOOL_CLOCK.g_Module.TMR0 = ['TMR0SEL', 'TMR0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.TMR1 = ['TMR1SEL', 'TMR1CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.TMR2 = ['TMR2SEL', 'TMR2CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.TMR3 = ['TMR3SEL', 'TMR3CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.TRACE = ['HCLK', 'TRACECKEN', 'none'];
+NUTOOL_CLOCK.g_Module.UART0 = ['UART0SEL', 'UART0CKEN', 'UART0DIV'];
+NUTOOL_CLOCK.g_Module.UART1 = ['UART1SEL', 'UART1CKEN', 'UART1DIV'];
+NUTOOL_CLOCK.g_Module.UART2 = ['UART2SEL', 'UART2CKEN', 'UART2DIV'];
+NUTOOL_CLOCK.g_Module.UART3 = ['UART3SEL', 'UART3CKEN', 'UART3DIV'];
+NUTOOL_CLOCK.g_Module.UART4 = ['UART4SEL', 'UART4CKEN', 'UART4DIV'];
+NUTOOL_CLOCK.g_Module.USCI0 = ['PCLK0', 'USCI0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.USCI1 = ['PCLK1', 'USCI1CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.WDT0 = ['WDT0SEL', 'WDT0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.WDT1 = ['WDT1SEL', 'WDT1CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.WWDT0 = ['WWDT0SEL', 'WWDT0CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.WWDT1 = ['WWDT1SEL', 'WWDT1CKEN', 'none'];
+NUTOOL_CLOCK.g_Module.CLKO = ['CLKOSEL', 'CLKOCKEN/DIV1EN/CLKOEN', 'none'];
+NUTOOL_CLOCK.g_Module.CLKO_1Hz = ['RTCCKSEL/32768', 'CLK1HZEN', 'none'];
+NUTOOL_CLOCK.g_Module.CLKO_Divider = ['CLKOSEL', 'CLKOCKEN/!DIV1EN/CLKOEN', 'FREQSEL'];
+NUTOOL_CLOCK.g_Module.SYSTICK = ['STCLKSEL/SYST_CTL[2]', 'ENABLE', 'none'];
+
+NUTOOL_CLOCK.g_unusedModule = {
+    'M3331KIGAE': ['CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1', 'SPB'],
+    'CM3031HS8AE': ['CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1', 'SPB'],
+    'M3331LIGAE': ['GPD', 'GPE', 'GPG', 'GPH', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'CM3031HL8AE': ['GPD', 'GPE', 'GPG', 'GPH', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'M3331SIGAE': ['GPD', 'GPE', 'GPH', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'CM3031HN8AE': ['GPD', 'GPE', 'GPH', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'M3331TIGAE': ['GPD', 'GPE', 'GPG', 'GPH', 'EBI', 'EQEI0', 'ECAP0', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB', 'TRACE'],
+    'CM3031HJ3AE': ['GPD', 'GPE', 'GPG', 'GPH', 'EBI', 'EQEI0', 'ECAP0', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB', 'TRACE'],
+    'M3333KIGAE': ['SPB'],
+    'CM3033HS8AE': ['SPB'],
+    'M3333LIGAE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'CM3033HL8AE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'M3333SIGAE': ['GPD', 'GPE', 'GPH', 'SPB'],
+    'CM3033HN8AE': ['GPD', 'GPE', 'GPH', 'SPB'],
+    'M3334KIGAE': ['SPB'],
+    'CM3034HS8AE': ['SPB'],
+    'M3334LIGAE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'CM3034HL8AE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'M3334SIGAE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'CM3034HN8AE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'M3334TIGAE': ['GPC', 'GPD', 'GPE', 'GPG', 'GPH', 'BPWM4', 'CANFD1', 'CANRAM1', 'EBI', 'EQEI0', 'ECAP0', 'SPB', 'LLSI8', 'LLSI9', 'TRACE'],
+    'CM3034HJ3AE': ['GPC', 'GPD', 'GPE', 'GPG', 'GPH', 'BPWM4', 'CANFD1', 'CANRAM1', 'EBI', 'EQEI0', 'ECAP0', 'SPB', 'LLSI8', 'LLSI9', 'TRACE'],
+    'M3331KGGAE': ['CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'CM3031GS8AE': ['CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'M3331LGGAE': ['GPD', 'GPE', 'GPG', 'GPH', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'CM3031GL8AE': ['GPD', 'GPE', 'GPG', 'GPH', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'M3331SGGAE': ['GPD', 'GPE', 'GPH', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'CM3031GN8AE': ['GPD', 'GPE', 'GPH', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'M3331TGGAE': ['GPD', 'GPE', 'GPG', 'GPH', 'EBI', 'EQEI0', 'ECAP0', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'CM3031GJ3AE': ['GPD', 'GPE', 'GPG', 'GPH', 'EBI', 'EQEI0', 'ECAP0', 'CANFD0', 'CANFD1', 'CANRAM0', 'CANRAM1','SPB'],
+    'M3333KGGAE': ['SPB'],
+    'CM3033GS8AE': ['SPB'],
+    'M3333LGGAE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'CM3033GL8AE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'M3333SGGAE': ['GPD', 'GPE', 'GPH', 'SPB'],
+    'CM3033GN8AE': ['GPD', 'GPE', 'GPH', 'SPB'],
+    'M3334KGGAE': ['SPB'],
+    'CM3034GS8AE': ['SPB'],
+    'M3334LGGAE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'CM3034GL8AE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'M3334SGGAE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'CM3034GN8AE': ['GPD', 'GPE', 'GPG', 'GPH', 'SPB'],
+    'M3334TGGAE': ['GPC', 'GPD', 'GPE', 'GPG', 'GPH', 'BPWM4', 'CANFD1', 'CANRAM1', 'EBI', 'EQEI0', 'ECAP0', 'SPB', 'LLSI8', 'LLSI9', 'TRACE'],
+    'CM3034GJ3AE': ['GPC', 'GPD', 'GPE', 'GPG', 'GPH', 'BPWM4', 'CANFD1', 'CANRAM1', 'EBI', 'EQEI0', 'ECAP0', 'SPB', 'LLSI8', 'LLSI9', 'TRACE']
+};
+
+NUTOOL_CLOCK.g_equivalentName = [];
+NUTOOL_CLOCK.g_equivalentName._S = 'SEL';
+NUTOOL_CLOCK.g_equivalentName.OSC10K_EN = 'LIRCEN';
+NUTOOL_CLOCK.g_equivalentName.OSC22M_EN = 'HIRCEN';
+NUTOOL_CLOCK.g_equivalentName.XTL32K_EN = 'LXTEN';
+NUTOOL_CLOCK.g_equivalentName.XTL12M_EN = 'HXTEN';
+NUTOOL_CLOCK.g_equivalentName.SYST_CSR = 'SYST_CTRL';
+NUTOOL_CLOCK.g_equivalentName.HCLK_S = 'HCLKSEL';
+NUTOOL_CLOCK.g_equivalentName.HCLK = 'HCLK';
+NUTOOL_CLOCK.g_equivalentName.STCLK_S = 'STCLKSEL';
+NUTOOL_CLOCK.g_equivalentName['STCLK_S/SYST_CSR[2]'] = 'STCLKSEL/SYST_CTL[2]';
+NUTOOL_CLOCK.g_equivalentName.HCLK_N = 'HCLKDIV';
+NUTOOL_CLOCK.g_equivalentName.PWRCON = 'PWRCTL';
+NUTOOL_CLOCK.g_equivalentName.PLLCON = 'PLLCTL';
+NUTOOL_CLOCK.g_equivalentName.PCLK0SEL = 'APB0DIV';
+NUTOOL_CLOCK.g_equivalentName.PCLK1SEL = 'APB1DIV';
+
+NUTOOL_CLOCK.g_BusNonExistent = ['ST'];
+NUTOOL_CLOCK.g_BusFromPCLK1 = [
+    'ACMP01', 'EADC0', 'BPWM1', 'BPWM3', 'BPWM5', 'I2C1', 'HSOTG', 'EPWM1', 'RTC', 
+    'SPI0', 'SPI2', 'TMR23', 'UART1', 'UART3', 'USCI1', 'LLSI1', 'LLSI3', 'LLSI5', 'LLSI7', 'LLSI9'
+];
+NUTOOL_CLOCK.g_DIV_Module_Defines = [];
+NUTOOL_CLOCK.g_CPUCLKLimit = 180 * 1000000;
+NUTOOL_CLOCK.g_HXTRange = '4~32MHz';
+NUTOOL_CLOCK.g_HXTfrequency = 24 * 1000000;
+NUTOOL_CLOCK.g_HIRCfrequencyArray = [];
+NUTOOL_CLOCK.g_HIRCfrequency = 48 * 1000000;
+NUTOOL_CLOCK.g_HIRC2frequencyArray = [];
+NUTOOL_CLOCK.g_HIRC2frequency = 0;
+NUTOOL_CLOCK.g_HIRC48frequency = 0;
+NUTOOL_CLOCK.g_LIRCfrequency = 38.4 * 1000;
+NUTOOL_CLOCK.g_MIRCfrequency = 0;
+NUTOOL_CLOCK.g_MIRC1P2Mfrequency = 0;
+NUTOOL_CLOCK.g_RTC32kfrequency = 0;
+NUTOOL_CLOCK.g_PLL480Mfrequency = 0;
+NUTOOL_CLOCK.g_HSUSBOTGPHYfrequency = 30 * 1000000;
