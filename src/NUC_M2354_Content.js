@@ -2,13 +2,13 @@
 NUTOOL_CLOCK.g_cfg_chips = [
 	// M2354
 	{ name: "M2354LJFAE", pkg: "LQFP48" },
-	{ name: "M2354SJFAE", pkg: "LQFP64" },
-	{ name: "M2354KJFAE", pkg: "LQFP128" },
-	{ name: "M2354CJFBE", pkg: "WLCSP49" },
-	{ name: "M2354LJFBE", pkg: "LQFP48" },
-	{ name: "M2354SJFBE", pkg: "LQFP64" },
-	{ name: "M2354KJFBE", pkg: "LQFP128" },
-	{ name: "M2354CJFAE", pkg: "WLCSP49" }
+    { name: "M2354LJFBE", pkg: "LQFP48" },
+    { name: "M2354SJFAE", pkg: "LQFP64" },
+    { name: "M2354SJFBE", pkg: "LQFP64" },
+    { name: "M2354KJFAE", pkg: "LQFP128" },
+    { name: "M2354KJFBE", pkg: "LQFP128" },
+    { name: "M2354CJFAE", pkg: "WLCSP49" },
+    { name: "M2354CJFBE", pkg: "WLCSP49" }
 ];
 
 NUTOOL_CLOCK.g_register_map = [];
@@ -190,13 +190,14 @@ NUTOOL_CLOCK.g_Module.CLKO_Divider = ['CLKOSEL', 'CLKOCKEN/!DIV1EN/CLKOEN/!CLK1H
 NUTOOL_CLOCK.g_Module.SYSTICK = ['STCLKSEL/SYST_CTRL[2]', 'ENABLE', 'none'];
 
 NUTOOL_CLOCK.g_unusedModule = {
-	"M2354LJFAE": ["ECAP1", "SPI3", "LCD", "LCDCP"],
-	"M2354SJFAE": ["ECAP1"],
-	'M2354CJFAE': ['ECAP1', 'ETM', 'SWDH', 'SPI3', 'LCD'],
-	"M2354CJFBE(WLCSP49)": ["ECAP0", "ECAP1", "SPI3", "LCD", "LCDCP", "QSPI0", "EBI"],
-	"M2354LJFBE(LQFP48)": ["ECAP1", "SPI3", "LCD", "LCDCP"],
-	"M2354SJFBE(LQFP64)": ["ECAP1"],
-	"M2354KJFBE(LQFP128)": []
+	'M2354LJFAE': ['ECAP1', 'SPI3', 'LCD', 'LCDCP'],
+    'M2354LJFBE': ['ECAP1', 'SPI3', 'LCD', 'LCDCP'],
+    'M2354SJFAE': ['ECAP1'],
+    'M2354SJFBE': ['ECAP1'],
+    'M2354KJFAE': [],
+    'M2354KJFBE': [],
+    'M2354CJFAE': ['ECAP1', 'SPI3', 'LCD', 'LCDCP', 'QSPI0', 'EBI'],
+    'M2354CJFBE': ['ECAP1', 'SPI3', 'LCD', 'LCDCP', 'QSPI0', 'EBI']
 };
 
 NUTOOL_CLOCK.g_equivalentName = [];
