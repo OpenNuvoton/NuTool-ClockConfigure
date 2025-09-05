@@ -6,7 +6,8 @@ const DAPjs = require('dapjs');
 const PROCESSOR_TYPE_ARM_CM0 = 'PROCESSOR_TYPE_ARM_CM0';
 const PROCESSOR_TYPE_ARM_CM4 = 'PROCESSOR_TYPE_ARM_CM4';
 const PROCESSOR_TYPE_ARM_CM55 = 'PROCESSOR_TYPE_ARM_CM55';
-const PROCESSOR_TYPE_ARM_CM23 = 'PROCESSOR_TYPE_ARM_CM23'
+const PROCESSOR_TYPE_ARM_CM23 = 'PROCESSOR_TYPE_ARM_CM23';
+const PROCESSOR_TYPE_ARM_CM33 = 'PROCESSOR_TYPE_ARM_CM33';
 const PROCESSOR_TYPE_UNDEFINED = 'PROCESSOR_TYPE_UNDEFINED';
 
 const isDebug =
@@ -187,6 +188,8 @@ const getProecssorType = async () => {
             return PROCESSOR_TYPE_ARM_CM23;
         case 'D22':
             return PROCESSOR_TYPE_ARM_CM55;
+        case 'D21':
+            return PROCESSOR_TYPE_ARM_CM33;
     }
 
     return PROCESSOR_TYPE_UNDEFINED;
@@ -223,6 +226,7 @@ const getBaseAddress = async (proecssorType) => {
             }
             break;
         case PROCESSOR_TYPE_ARM_CM55:
+        case PROCESSOR_TYPE_ARM_CM33:
             baseAddr = 0x40000000;
             break;
         default:

@@ -2050,6 +2050,7 @@ var PROCESSOR_TYPE_ARM_CM0 = 'PROCESSOR_TYPE_ARM_CM0';
 var PROCESSOR_TYPE_ARM_CM4 = 'PROCESSOR_TYPE_ARM_CM4';
 var PROCESSOR_TYPE_ARM_CM55 = 'PROCESSOR_TYPE_ARM_CM55';
 var PROCESSOR_TYPE_ARM_CM23 = 'PROCESSOR_TYPE_ARM_CM23';
+var PROCESSOR_TYPE_ARM_CM33 = 'PROCESSOR_TYPE_ARM_CM33';
 var PROCESSOR_TYPE_UNDEFINED = 'PROCESSOR_TYPE_UNDEFINED';
 var processor, proecssorType, baseAddr;
 var usbIsConnecting = false;
@@ -2346,7 +2347,7 @@ var getProecssorType = /*#__PURE__*/function () {
           });
         case 2:
           _context5.t0 = uPartNo;
-          _context5.next = _context5.t0 === 'C20' ? 5 : _context5.t0 === 'C24' ? 6 : _context5.t0 === 'D20' ? 7 : _context5.t0 === 'D22' ? 8 : 9;
+          _context5.next = _context5.t0 === 'C20' ? 5 : _context5.t0 === 'C24' ? 6 : _context5.t0 === 'D20' ? 7 : _context5.t0 === 'D22' ? 8 : _context5.t0 === 'D21' ? 9 : 10;
           break;
         case 5:
           return _context5.abrupt("return", PROCESSOR_TYPE_ARM_CM0);
@@ -2357,8 +2358,10 @@ var getProecssorType = /*#__PURE__*/function () {
         case 8:
           return _context5.abrupt("return", PROCESSOR_TYPE_ARM_CM55);
         case 9:
-          return _context5.abrupt("return", PROCESSOR_TYPE_UNDEFINED);
+          return _context5.abrupt("return", PROCESSOR_TYPE_ARM_CM33);
         case 10:
+          return _context5.abrupt("return", PROCESSOR_TYPE_UNDEFINED);
+        case 11:
         case "end":
           return _context5.stop();
       }
@@ -2375,7 +2378,7 @@ var getBaseAddress = /*#__PURE__*/function () {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
           _context6.t0 = proecssorType;
-          _context6.next = _context6.t0 === PROCESSOR_TYPE_ARM_CM0 ? 3 : _context6.t0 === PROCESSOR_TYPE_ARM_CM4 ? 12 : _context6.t0 === PROCESSOR_TYPE_ARM_CM23 ? 14 : _context6.t0 === PROCESSOR_TYPE_ARM_CM55 ? 23 : 25;
+          _context6.next = _context6.t0 === PROCESSOR_TYPE_ARM_CM0 ? 3 : _context6.t0 === PROCESSOR_TYPE_ARM_CM4 ? 12 : _context6.t0 === PROCESSOR_TYPE_ARM_CM23 ? 14 : _context6.t0 === PROCESSOR_TYPE_ARM_CM55 ? 23 : _context6.t0 === PROCESSOR_TYPE_ARM_CM33 ? 23 : 25;
           break;
         case 3:
           baseAddr = 0x50000000;

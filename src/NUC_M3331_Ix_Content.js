@@ -37,41 +37,41 @@ NUTOOL_CLOCK.g_cfg_chips = [
     // { name: "CM3034HN8AE", pkg: "LQFP64" },
     // { name: "CM3034HS8AE", pkg: "LQFP128" },
     // M3331
-    { name: "M3331KGGAE", pkg: "LQFP128" },
-    { name: "M3331KIGAE", pkg: "LQFP128" },
+    // { name: "M3331KGGAE", pkg: "LQFP128" },
+    // { name: "M3331KIGAE", pkg: "LQFP128" },
     // { name: "M3331LGAAE", pkg: "LQFP48" },
-    { name: "M3331LGGAE", pkg: "LQFP48" },
-    { name: "M3331LIGAE", pkg: "LQFP48" },
+    // { name: "M3331LGGAE", pkg: "LQFP48" },
+    // { name: "M3331LIGAE", pkg: "LQFP48" },
     // { name: "M3331SGAAE", pkg: "LQFP64" },
-    { name: "M3331SGGAE", pkg: "LQFP64" },
-    { name: "M3331SIGAE", pkg: "LQFP64" },
+    // { name: "M3331SGGAE", pkg: "LQFP64" },
+    // { name: "M3331SIGAE", pkg: "LQFP64" },
     // { name: "M3331TGAAE", pkg: "QFN33" },
-    { name: "M3331TGGAE", pkg: "QFN33" },
-    { name: "M3331TIGAE", pkg: "QFN33" },
-    { name: "M3331YGGAE", pkg: "QFN48" },
-    { name: "M3331YIGAE", pkg: "QFN48" },
-    { name: "M3333KGGAE", pkg: "LQFP128" },
+    // { name: "M3331TGGAE", pkg: "QFN33" },
+    // { name: "M3331TIGAE", pkg: "QFN33" },
+    // { name: "M3331YGGAE", pkg: "QFN48" },
+    // { name: "M3331YIGAE", pkg: "QFN48" },
+    // { name: "M3333KGGAE", pkg: "LQFP128" },
     { name: "M3333KIGAE", pkg: "LQFP128" },
-    { name: "M3333LGGAE", pkg: "LQFP48" },
+    // { name: "M3333LGGAE", pkg: "LQFP48" },
     { name: "M3333LIGAE", pkg: "LQFP48" },
-    { name: "M3333SGGAE", pkg: "LQFP64" },
+    // { name: "M3333SGGAE", pkg: "LQFP64" },
     { name: "M3333SIGAE", pkg: "LQFP64" },
-    { name: "M3333TGGAE", pkg: "QFN33" },
+    // { name: "M3333TGGAE", pkg: "QFN33" },
     { name: "M3333TIGAE", pkg: "QFN33" },
-    { name: "M3333YGGAE", pkg: "QFN48" },
+    // { name: "M3333YGGAE", pkg: "QFN48" },
     { name: "M3333YIGAE", pkg: "QFN48" },
-    { name: "M3334KGGAE", pkg: "LQFP128" },
+    // { name: "M3334KGGAE", pkg: "LQFP128" },
     { name: "M3334KIGAE", pkg: "LQFP128" },
     // { name: "M3334LGAAE", pkg: "LQFP48" },
-    { name: "M3334LGGAE", pkg: "LQFP48" },
+    // { name: "M3334LGGAE", pkg: "LQFP48" },
     { name: "M3334LIGAE", pkg: "LQFP48" },
     // { name: "M3334SGAAE", pkg: "LQFP64" },
-    { name: "M3334SGGAE", pkg: "LQFP64" },
+    // { name: "M3334SGGAE", pkg: "LQFP64" },
     { name: "M3334SIGAE", pkg: "LQFP64" },
     // { name: "M3334TGAAE", pkg: "QFN33" },
-    { name: "M3334TGGAE", pkg: "QFN33" },
+    // { name: "M3334TGGAE", pkg: "QFN33" },
     { name: "M3334TIGAE", pkg: "QFN33" },
-    { name: "M3334YGGAE", pkg: "QFN48" },
+    // { name: "M3334YGGAE", pkg: "QFN48" },
     { name: "M3334YIGAE", pkg: "QFN48" }
 ];
 
@@ -350,7 +350,7 @@ NUTOOL_CLOCK.g_BusFromPCLK1 = [
 NUTOOL_CLOCK.g_DIV_Module_Defines = [];
 NUTOOL_CLOCK.g_CPUCLKLimit = 180 * 1000000;
 NUTOOL_CLOCK.g_HXTRange = '4~32MHz';
-NUTOOL_CLOCK.g_HXTfrequency = 24 * 1000000;
+NUTOOL_CLOCK.g_HXTfrequency = 12 * 1000000;
 NUTOOL_CLOCK.g_HIRCfrequencyArray = [];
 NUTOOL_CLOCK.g_HIRCfrequency = 48 * 1000000;
 NUTOOL_CLOCK.g_HIRC2frequencyArray = [];
