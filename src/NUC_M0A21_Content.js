@@ -21,7 +21,6 @@ NUTOOL_CLOCK.g_register_map.CLKSEL2 = ['ADCSEL:21-20'];
 NUTOOL_CLOCK.g_register_map.CLKDIV0 = ['ADCDIV:23-16', 'UART1DIV:15-12', 'UART0DIV:11-8', 'HCLKDIV:3-0'];
 NUTOOL_CLOCK.g_register_map.PCLKDIV = ['APB1DIV:6-4', 'APB0DIV:2-0'];
 NUTOOL_CLOCK.g_register_map.CLKOCTL = ['DIV1EN:5', 'CLKOEN:4', 'FREQSEL:3-0'];
-NUTOOL_CLOCK.g_register_map.CLKDCTL = ['HXTFQIEN:17', 'HXTFQDEN:16', 'LXTFIEN:13', 'LXTFDEN:12', 'HXTFIEN:5', 'HXTFDEN:4'];
 NUTOOL_CLOCK.g_register_map.SYST_CTRL = ['COUNTFLAG:16', 'CLKSRC:2', 'TICKINT:1', 'ENABLE:0'];
 
 // Be careful. The order of g_register_map_default will affect the result in the generated code.
@@ -36,7 +35,6 @@ NUTOOL_CLOCK.g_register_map_default.CLKSEL2   = '0x0020032B';
 NUTOOL_CLOCK.g_register_map_default.CLKDIV0   = '0x00000000';
 NUTOOL_CLOCK.g_register_map_default.PCLKDIV   = '0x00000000';
 NUTOOL_CLOCK.g_register_map_default.CLKOCTL   = '0x00000000';
-NUTOOL_CLOCK.g_register_map_default.CLKDCTL   = '0x00000000';
 NUTOOL_CLOCK.g_register_map_default.SYST_CTRL = '0x00000000';
 
 NUTOOL_CLOCK.g_register_map_description = [];
@@ -50,7 +48,6 @@ NUTOOL_CLOCK.g_register_map_description.CLKSEL2   = '0x40000218';
 NUTOOL_CLOCK.g_register_map_description.CLKDIV0   = '0x40000220';
 NUTOOL_CLOCK.g_register_map_description.PCLKDIV   = '0x40000234';
 NUTOOL_CLOCK.g_register_map_description.CLKOCTL   = '0x40000260';
-NUTOOL_CLOCK.g_register_map_description.CLKDCTL   = '0x40000270';
 NUTOOL_CLOCK.g_register_map_description.SYST_CTRL = '0xE000E010';
 
 NUTOOL_CLOCK.g_CLKSEL = [];

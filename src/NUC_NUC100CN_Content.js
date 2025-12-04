@@ -36,6 +36,10 @@ NUTOOL_CLOCK.g_cfg_chips = [
 	{ name: "NUC131SD2AE", pkg: "LQFP64" },
 	{ name: "NUC131LC2AE", pkg: "LQFP48" },
 	{ name: "NUC131LD2AE", pkg: "LQFP48" },
+	{ name: "NUC131SC2AEU", pkg: "LQFP64" },
+	{ name: "NUC131SD2AEU", pkg: "LQFP64" },
+	{ name: "NUC131LC2AEU", pkg: "LQFP48" },
+	{ name: "NUC131LD2AEU", pkg: "LQFP48" },
     //NUC1311
     { name: "NUC1311LC2AE", pkg: "LQFP48" },
     { name: "NUC1311LD2AE", pkg: "LQFP48" },
@@ -66,6 +70,7 @@ NUTOOL_CLOCK.g_cfg_chips = [
 	{ name: "NUC126SE4AE", pkg: "LQFP64" },
 	{ name: "NUC126SG4AE", pkg: "LQFP64" },
 	{ name: "NUC126VG4AE", pkg: "LQFP100" },
+	{ name: "NUC126NE4AE", pkg: "QFN48" },
 	// NUC1261
 	{ name: "NUC1261LG4AE", pkg: "LQFP48" },
 	{ name: "NUC1261LE4AE", pkg: "LQFP48" },
@@ -73,11 +78,15 @@ NUTOOL_CLOCK.g_cfg_chips = [
 	{ name: "NUC1261SG4AE", pkg: "LQFP64" },
 	{ name: "NUC1261SE4AE", pkg: "LQFP64" },
 	// NUC1262
+	{ name: "NUC1262YE4AE", pkg: "QFN48" },
 	{ name: "NUC1262NE4AE", pkg: "QFN48" },
 	{ name: "NUC1262LE4AE", pkg: "LQFP48" },
 	{ name: "NUC1262SE4AE", pkg: "LQFP64" },
 	// NUC1263
-	{ name: "NUC1263", pkg: "QFN48" }
+    { name: "NUC1263ZD4CE", pkg: "QFN33" },
+    { name: "NUC1263ND4CE", pkg: "QFN48" },
+    { name: "NUC1263LD4CE", pkg: "LQFP48" },
+    { name: "NUC1263SD4CE", pkg: "LQFP64" },
 ];
 
 NUTOOL_CLOCK.g_register_map = [];
