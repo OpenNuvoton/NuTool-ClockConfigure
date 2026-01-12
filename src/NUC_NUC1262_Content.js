@@ -87,6 +87,10 @@ NUTOOL_CLOCK.g_cfg_chips = [
     { name: "NUC1263ND4CE", pkg: "QFN48" },
     { name: "NUC1263LD4CE", pkg: "LQFP48" },
     { name: "NUC1263SD4CE", pkg: "LQFP64" },
+	{ name: "NUC1263ZD4AE", pkg: "QFN33" },
+    { name: "NUC1263ND4AE", pkg: "QFN48" },
+    { name: "NUC1263LD4AE", pkg: "ULQFP48" },
+    { name: "NUC1263SD4AE", pkg: "ULQFP64" },
 ];
 
 NUTOOL_CLOCK.g_register_map = [];

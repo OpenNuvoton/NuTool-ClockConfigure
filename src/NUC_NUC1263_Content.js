@@ -87,6 +87,10 @@ NUTOOL_CLOCK.g_cfg_chips = [
     { name: "NUC1263ND4CE", pkg: "QFN48" },
     { name: "NUC1263LD4CE", pkg: "LQFP48" },
     { name: "NUC1263SD4CE", pkg: "LQFP64" },
+	{ name: "NUC1263ZD4AE", pkg: "QFN33" },
+    { name: "NUC1263ND4AE", pkg: "QFN48" },
+    { name: "NUC1263LD4AE", pkg: "LQFP48" },
+    { name: "NUC1263SD4AE", pkg: "LQFP64" },
 ];
 
 NUTOOL_CLOCK.g_register_map = [];
@@ -242,7 +246,11 @@ NUTOOL_CLOCK.g_unusedModule = {
     "NUC1263ZD4CE": ['GPIOA', 'GPIOE', 'GPIOG'],
     "NUC1263ND4CE": ['GPIOD', 'GPIOE', 'GPIOG'],
     "NUC1263LD4CE": ['GPIOD', 'GPIOE', 'GPIOG'],
-    "NUC1263SD4CE": ['GPIOE', 'GPIOG']
+    "NUC1263SD4CE": ['GPIOE', 'GPIOG'],
+	"NUC1263ZD4AE": ['GPIOA', 'GPIOE', 'GPIOG', 'USBD'],
+    "NUC1263ND4AE": ['GPIOD', 'GPIOE', 'GPIOG', 'USBD'],
+    "NUC1263LD4AE": ['GPIOD', 'GPIOE', 'GPIOG'],
+    "NUC1263SD4AE": ['GPIOE', 'GPIOG']
 };
 NUTOOL_CLOCK.g_equivalentName = [];
 NUTOOL_CLOCK.g_equivalentName._S = 'SEL';
